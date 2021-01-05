@@ -3794,7 +3794,8 @@ paint() {
 		BEGIN {
 			"tput cols" | getline nc
 			"tput lines" | getline nr
-			nc
+			nc = int(nc)
+			nr = int(nr)
 		}
 
 		function hextorgb(s) {
