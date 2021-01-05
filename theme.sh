@@ -3790,7 +3790,7 @@ cursorColor: #dcdccc
 )
 
 paint() {
-	echo "$themes"| awk -F": " -vtarget="$1" '
+	echo "$themes"| awk -F": " -v target="$1" '
 		BEGIN {
 			"tput cols" | getline nc
 			"tput lines" | getline nr
@@ -3914,7 +3914,7 @@ case "$1" in
 *)
 	case "$TERM" in
 	st-*) #st treats color 0 as the background :/
-		echo "$themes"|awk -F": " -vtarget="$1" '
+		echo "$themes"|awk -F": " -v target="$1" '
 			$0 == target {s++}
 
 			s && /^foreground:/ { printf "\033]4;7;"$2"\007" > "/dev/tty" }
@@ -3926,7 +3926,7 @@ case "$1" in
 		'
 		;;
 	*)
-	echo "$themes"|awk -F": " -vtarget="$1" '
+	echo "$themes"|awk -F": " -v target="$1" '
 		$0 == target {s++}
 
 		s && /^foreground:/ { printf "\033]10;"$2"\007" > "/dev/tty" }
