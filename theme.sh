@@ -3912,31 +3912,35 @@ case "$1" in
 	paint "$2"
 	;;
 *)
-	case "$TERM" in
-	st-*) #st treats color 0 as the background :/
-		echo "$themes"|awk -F": " -v target="$1" '
-			$0 == target {s++}
-
-			s && /^foreground:/ { printf "\033]4;7;"$2"\007" > "/dev/tty" }
-			s && /^background:/ { printf "\033]4;0;"$2"\007" > "/dev/tty" }
-			s && /^[0-9]+:/ { printf "\033]4;"$1";"$2"\007" > "/dev/tty" }
-			s && /^cursorColor+:/ { printf "\033]4;256;"$2"\007" > "/dev/tty" }
-
-			/^ *$/ {s = 0}
-		'
-		;;
-	*)
 	echo "$themes"|awk -F": " -v target="$1" '
+		function tmuxesc(s) { return sprintf("\033Ptmux;\033%s\033\\", s) }
+		BEGIN {
+			fgesc="\033]10;%s\007"
+			bgesc="\033]11;%s\007"
+			curesc="\033]12;%s\007"
+			colesc="\033]4;"$1";%s\007"
+
+			if(ENVIRON["TERM"] ~ /st-.*/) {
+				fgesc="\033]4;7;%s\007"
+				bgesc="\033]4;0;%s\007"
+				colesc="\033]4;%d;%s\007"
+				curesc="\033]4;256;%s\007"
+			} else if(ENVIRON["TERM"] ~ /^(screen|tmux)(-.*)?$/) { #Only works on terms which implement OSC 11 (also breaks screen)
+				fgesc=tmuxesc(fgesc)
+				bgesc=tmuxesc(bgesc)
+				curesc=tmuxesc(curesc)
+				colesc=tmuxesc(colesc)
+			}
+		}
+
 		$0 == target {s++}
 
-		s && /^foreground:/ { printf "\033]10;"$2"\007" > "/dev/tty" }
-		s && /^background:/ { printf "\033]11;"$2"\007" > "/dev/tty" }
-		s && /^[0-9]+:/ { printf "\033]4;"$1";"$2"\007" > "/dev/tty" }
-		s && /^cursorColor+:/ { printf "\033]12;"$2"\007" > "/dev/tty" }
+		s && /^foreground:/ { printf fgesc, $2 > "/dev/tty" }
+		s && /^background:/ { printf bgesc, $2 > "/dev/tty" }
+		s && /^[0-9]+:/ { printf colesc, $1, $2 > "/dev/tty" }
+		s && /^cursorColor+:/ { printf curesc, $2 > "/dev/tty" }
 
 		/^ *$/ {s = 0}
 	'
-	;;
-	esac
 ;;
 esac
