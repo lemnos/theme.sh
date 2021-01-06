@@ -717,6 +717,7 @@ dracula
 15: #ffffff
 background: #282a36
 foreground: #94A3A5
+
 cursorColor: #94A3A5
 
 earthsong
