@@ -60,7 +60,8 @@ Below is a list of terminals on which theme.sh is known to work:
  - gnome-terminal
  - terminator
  - st
- - stock OSX term (not iterm) 
+ - Terminal.app (osx)
+ - iterm
  - alacritty
  - urxvt (non interactively unless the truecolor patch is installed)
  - any libvte based terminal
@@ -76,6 +77,4 @@ Below is a list of terminals on which theme.sh is known to work:
 
 # Known issues
 
- - Will only work with tmux on terminals which implement osc 11 (i.e not st)
  - Will not work in screen (tmux uses the same TERM variable)
- - No iterm support (iterm does not implement OSC 11)
