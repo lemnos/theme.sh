@@ -2693,8 +2693,6 @@ background: #000000
 foreground: #f2f2f2
 cursorColor: #f2f2f2
 
-README
-
 red-alert
 0: #000000
 1: #d62e4e
@@ -3859,16 +3857,22 @@ paint() {
 }
 
 if [ -z "$1" ]; then
-	echo "Usage: $0 [-l|--list] [-i|--interactive] [-i2|--interactive2] <theme>"
+	echo "Usage: $0 [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] <theme>"
 	exit
 fi
 
 case "$1" in
 -i2|--interactive2)
+	command -v fzf 2> /dev/null || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	"$0" -l|fzf --bind "enter:execute($0 {})" --bind "down:down+execute-silent($0 {})" --bind "up:up+execute-silent($0 {})" --preview "$0 --preview2"
 	;;
+-r|--random)
+	theme=$($0 -l|sort -R|head -n1)
+	$0 "$theme"
+	echo "Theme: $theme"
+	;;
 -i|--interactive)
-	hash fzf 2> /dev/null || { echo "ERROR: -i requires fzf" >&2; exit 1; }
+	command -v fzf 2> /dev/null || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	if [ -z "$COLORTERM" ]; then
 		echo "This does not appear to be a truecolor terminal, try -i2 instead or set COLORTERM if your terminal has truecolor support"
 		exit 1
@@ -3914,27 +3918,41 @@ case "$1" in
 *)
 	echo "$themes"|awk -F": " -v target="$1" '
 		function tmuxesc(s) { return sprintf("\033Ptmux;\033%s\033\\", s) }
-		BEGIN {
-			fgesc="\033]10;#%s\007"
-			bgesc="\033]11;#%s\007"
-			curesc="\033]12;#%s\007"
-			colesc="\033]4;%d;#%s\007"
+		function normalize_term() {
+			# Term detection voodoo
 
-			if(ENVIRON["TERM_PROGRAM"] == "iTerm.app") {
+			if(ENVIRON["TERM_PROGRAM"] == "iTerm.app")
+				term="iterm"
+			else if(ENVIRON["TMUX"]) {
+				"tmux display-message -p \"#{client_termname}\"" | getline term
+				is_tmux++
+			} else
+				term=ENVIRON["TERM"]
+		}
+
+		BEGIN {
+			normalize_term()
+
+			if(term == "iterm") {
 				bgesc="\033]Ph%s\033\\"
 				fgesc="\033]Pg%s\033\\"
 				colesc="\033]P%x%s\033\\"
 				curesc="\033]Pl%s\033\\"
-			}
-
-			if(ENVIRON["TERM"] ~ /st-.*/) {
+			} else if(term ~ /st-.*/) {
 				fgesc="\033]4;7;#%s\007"
 				bgesc="\033]4;0;#%s\007"
 				colesc="\033]4;%d;#%s\007"
 				curesc="\033]4;256;#%s\007"
-			} 
+			} else {
+				#Terms that play nice :)
 
-			if(ENVIRON["TERM"] ~ /^(screen|tmux)(-.*)?$/) { #Doesnt work on st
+				fgesc="\033]10;#%s\007"
+				bgesc="\033]11;#%s\007"
+				curesc="\033]12;#%s\007"
+				colesc="\033]4;%d;#%s\007"
+			}
+
+			if(is_tmux) {
 				fgesc=tmuxesc(fgesc)
 				bgesc=tmuxesc(bgesc)
 				curesc=tmuxesc(curesc)
