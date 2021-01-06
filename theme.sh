@@ -1704,9 +1704,9 @@ maia
 13: #487D72
 14: #00D1D1
 15: #E8E8E8
-background: #31363B
-foreground: #BDX3C7
-cursorColor: #BDX3C7
+background: #272827
+foreground: #fdf6e3
+cursorColor: #16A085
 
 man-page
 0: #000000
