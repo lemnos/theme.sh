@@ -3915,17 +3915,26 @@ case "$1" in
 	echo "$themes"|awk -F": " -v target="$1" '
 		function tmuxesc(s) { return sprintf("\033Ptmux;\033%s\033\\", s) }
 		BEGIN {
-			fgesc="\033]10;%s\007"
-			bgesc="\033]11;%s\007"
-			curesc="\033]12;%s\007"
-			colesc="\033]4;"$1";%s\007"
+			fgesc="\033]10;#%s\007"
+			bgesc="\033]11;#%s\007"
+			curesc="\033]12;#%s\007"
+			colesc="\033]4;%d;#%s\007"
+
+			if(ENVIRON["TERM_PROGRAM"] == "iTerm.app") {
+				bgesc="\033]Ph%s\033\\"
+				fgesc="\033]Pg%s\033\\"
+				colesc="\033]P%x%s\033\\"
+				curesc="\033]Pl%s\033\\"
+			}
 
 			if(ENVIRON["TERM"] ~ /st-.*/) {
-				fgesc="\033]4;7;%s\007"
-				bgesc="\033]4;0;%s\007"
-				colesc="\033]4;%d;%s\007"
-				curesc="\033]4;256;%s\007"
-			} else if(ENVIRON["TERM"] ~ /^(screen|tmux)(-.*)?$/) { #Only works on terms which implement OSC 11 (also breaks screen)
+				fgesc="\033]4;7;#%s\007"
+				bgesc="\033]4;0;#%s\007"
+				colesc="\033]4;%d;#%s\007"
+				curesc="\033]4;256;#%s\007"
+			} 
+
+			if(ENVIRON["TERM"] ~ /^(screen|tmux)(-.*)?$/) { #Doesnt work on st
 				fgesc=tmuxesc(fgesc)
 				bgesc=tmuxesc(bgesc)
 				curesc=tmuxesc(curesc)
@@ -3935,10 +3944,10 @@ case "$1" in
 
 		$0 == target {s++}
 
-		s && /^foreground:/ { printf fgesc, $2 > "/dev/tty" }
-		s && /^background:/ { printf bgesc, $2 > "/dev/tty" }
-		s && /^[0-9]+:/ { printf colesc, $1, $2 > "/dev/tty" }
-		s && /^cursorColor+:/ { printf curesc, $2 > "/dev/tty" }
+		s && /^foreground:/ { printf fgesc, substr($2,2) > "/dev/tty" }
+		s && /^background:/ { printf bgesc, substr($2,2) > "/dev/tty" }
+		s && /^[0-9]+:/ { printf colesc, $1, substr($2,2) > "/dev/tty" }
+		s && /^cursorColor+:/ { printf curesc, substr($2,2) > "/dev/tty" }
 
 		/^ *$/ {s = 0}
 	'
