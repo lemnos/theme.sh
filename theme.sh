@@ -3946,7 +3946,7 @@ apply() {
 }
 
 if [ -z "$1" ]; then
-	echo "Usage: $0 [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] <theme>"
+	echo "Usage: $(basename "$0") [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] <theme>"
 	exit
 fi
 
