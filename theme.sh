@@ -4,6 +4,8 @@
 # Source: https://github.com/lemnos/theme.sh.
 # Licensed under the WTFPL provided this notice is preserved.
 
+# Find a broken theme? Want to add a missing one? PRs are welcome.
+
 themes=$(cat <<!
 3024-day
 0: #090300
