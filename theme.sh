@@ -3954,12 +3954,14 @@ fi
 
 case "$1" in
 -i2|--interactive2)
-	command -v fzf 2> /dev/null || { echo "ERROR: -i requires fzf" >&2; exit 1; }
+	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	"$0" -l|fzf\
-		--bind "enter:execute($0 {})"\
+		--bind "enter:execute-silent($0 {})"\
 		--bind "down:down+execute-silent($0 {} &)"\
 		--bind "up:up+execute-silent($0 {} &)"\
 		--bind "change:execute-silent($0 {} &)"\
+		--bind "ctrl-c:execute(echo {})+abort"\
+		--bind "esc:execute(echo {})+abort"\
 		--preview "$0 --preview2"
 	;;
 -r|--random)
@@ -3968,12 +3970,14 @@ case "$1" in
 	echo "Theme: $theme"
 	;;
 -i|--interactive)
-	command -v fzf 2> /dev/null || { echo "ERROR: -i requires fzf" >&2; exit 1; }
+	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	if [ -z "$COLORTERM" ]; then
 		echo "This does not appear to be a truecolor terminal, try -i2 instead or set COLORTERM if your terminal has truecolor support."
 		exit 1
 	else
 		"$0" -l|fzf\
+			--bind "ctrl-c:execute(echo {})+abort"\
+			--bind "esc:execute(echo {})+abort"\
 			--bind "enter:execute-silent($0 {})"\
 			--preview "$0 --preview {}"
 	fi
