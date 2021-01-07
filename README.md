@@ -52,6 +52,17 @@ theme.sh <theme>
 
 in your `~/.bashrc`
 
+If `$CURRENT_THEME_FILE` is set then the current theme will be written to the
+path it contains when `theme.sh` temrinates. Thus to make theme changes
+persistent you can simply add
+
+```
+export CURRENT_THEME_FILE=~/.current_theme
+[ -e "$CURRENT_THEME_FILE" ] && theme.sh "$(cat "$CURRENT_THEME_FILE")"
+```
+
+to your `~/.bashrc`.
+
 # Supported Terminals
 
 Below is a list of terminals on which theme.sh is known to work:

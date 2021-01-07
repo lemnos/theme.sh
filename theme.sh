@@ -3943,7 +3943,11 @@ apply() {
 		s && /^[0-9]+:/ { printf colesc, $1, substr($2,2) > "/dev/tty" }
 		s && /^cursorColor+:/ { printf curesc, substr($2,2) > "/dev/tty" }
 
-		s && /^ *$/ {s = 0}
+		s && /^ *$/ {
+			f=ENVIRON["CURRENT_THEME_FILE"]
+			if(f) print target > f
+			exit
+		}
 	'
 }
 
