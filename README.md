@@ -41,7 +41,7 @@ Then:
 or simply
 
 ```
-> theme.sh -i #Interactive theme selection (requires [fzf](https://github.com/junegunn/fzf))
+> theme.sh -i #Interactive theme selection (requires fzf)
 ```
 
 Once you find something you like simply put
@@ -50,7 +50,7 @@ Once you find something you like simply put
 theme.sh <theme>
 ```
 
-in your ~/.bashrc
+in your `~/.bashrc`
 
 # Supported Terminals
 
@@ -61,7 +61,7 @@ Below is a list of terminals on which theme.sh is known to work:
  - terminator
  - st
  - Terminal.app (osx)
- - iterm
+ - iTerm2
  - alacritty
  - urxvt (non interactively unless the truecolor patch is installed)
  - any libvte based terminal

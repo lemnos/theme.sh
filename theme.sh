@@ -1559,8 +1559,6 @@ background: #121212
 foreground: #dedede
 cursorColor: #dedede
 
-jk
-
 jup
 0: #000000
 1: #dd006f
@@ -3787,7 +3785,8 @@ cursorColor: #dcdccc
 !
 )
 
-paint() {
+# Use truecolor sequences to simulate the end result.
+preview() {
 	echo "$themes"| awk -F": " -v target="$1" '
 		BEGIN {
 			"tput cols" | getline nc
@@ -3823,67 +3822,44 @@ paint() {
 
 		/^ *$/ {s=0}
 
-		function nl(   i) {
-			printf "\x1b[0m%s%s", fgesc(fg), bgesc(bg)
+		function puts(s,   len,   i,   normesc,   filling) {
+			normesc = sprintf("\x1b[0m%s%s", fgesc(fg), bgesc(bg))
 
-			for (i = 0; i < nc;i++)
-				printf " "
+			len=s
+			gsub(/\033\[[^m]*m/, "", len)
+			len=length(len)
 
-			printf "\n"
+			filling=""
+			for(i=0;i<(nc-len);i++) filling=filling" "
+
+			printf "%s%s%s%s\n", normesc, s, normesc, filling, ""
+			nr--
 		}
 
 		END {
-			nl()
-			for (i = 0;i<16;i++) {
-				printf "  %s Color %d\x1b[0m", fgesc(a[i]), i
-				nl()
-			}
+			puts("")
+			for (i = 0;i<16;i++)
+				puts(sprintf("  %s Color %d\x1b[0m", fgesc(a[i]), i))
 
-			nl()
-			printf " # ls --color -l";nl();nl()
-			printf "    total 4";nl()
-			printf "    -rw-r--r-- 1 user user    0 Jan  0 02:39 file";nl()
-			printf "    drwxr-xr-x 2 user user 4096 Jan  0 02:39 \x1b[1m%sdir/", fgesc(a[4]);nl()
-			printf "    -rwxr-xr-x 1 user user    0 Jan  0 02:39 \x1b[1m%sexecutable", fgesc(a[10]);nl()
-			printf "    lrwxrwxrwx 1 user user   15 Jan  0 02:40 \x1b[1m%ssymlink\x1b[0m%s%s -> /etc/symlink", fgesc(a[6]), fgesc(fg), bgesc(bg);nl()
+			# Note: Some terminals use different colors for bolded text and may produce slightly different ls output.
+
+			puts("")
+			puts(" # ls --color -l")
+			puts("    total 4")
+			puts("    -rw-r--r-- 1 user user    0 Jan  0 02:39 file")
+			puts(sprintf("    drwxr-xr-x 2 user user 4096 Jan  0 02:39 \x1b[1m%sdir/", fgesc(a[4])))
+			puts(sprintf("    -rwxr-xr-x 1 user user    0 Jan  0 02:39 \x1b[1m%sexecutable", fgesc(a[10])))
+			puts(sprintf("    lrwxrwxrwx 1 user user   15 Jan  0 02:40 \x1b[1m%ssymlink\x1b[0m%s%s -> /etc/symlink", fgesc(a[6]), fgesc(fg), bgesc(bg)))
 
 
-			for (i = 0;i < nr;i++)
-				nl()
+			while(nr > 0) puts("")
 
 			printf "\x1b[0m"
 		}
 	'
 }
 
-if [ -z "$1" ]; then
-	echo "Usage: $0 [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] <theme>"
-	exit
-fi
-
-case "$1" in
--i2|--interactive2)
-	command -v fzf 2> /dev/null || { echo "ERROR: -i requires fzf" >&2; exit 1; }
-	"$0" -l|fzf --bind "enter:execute($0 {})" --bind "down:down+execute-silent($0 {})" --bind "up:up+execute-silent($0 {})" --preview "$0 --preview2"
-	;;
--r|--random)
-	theme=$($0 -l|sort -R|head -n1)
-	$0 "$theme"
-	echo "Theme: $theme"
-	;;
--i|--interactive)
-	command -v fzf 2> /dev/null || { echo "ERROR: -i requires fzf" >&2; exit 1; }
-	if [ -z "$COLORTERM" ]; then
-		echo "This does not appear to be a truecolor terminal, try -i2 instead or set COLORTERM if your terminal has truecolor support"
-		exit 1
-	else
-		"$0" -l|fzf --bind "enter:execute($0 {})" --preview "$0 --preview {}"
-	fi
-	;;
--l|--list)
-	echo "$themes"|awk '/^ *$/ {i=0;next} !i {i=1;print}'
-	;;
---preview2)
+preview2() {
 	printf '\033[30mColor 0\n'
 	printf '\033[31mColor 1\n'
 	printf '\033[32mColor 2\n'
@@ -3911,12 +3887,10 @@ case "$1" in
 	printf '    lrwxrwxrwx 1 user user   15 Jan  0 02:40 \033[01;36msymlink\033[0m -> /etc/symlink\n'
 
 	printf '\033[0m'
-	;;
---preview)
-	paint "$2"
-	;;
-*)
-	echo "$themes"|awk -F": " -v target="$1" '
+}
+
+apply() {
+	echo "$themes"| awk -F": " -v target="$1" '
 		function tmuxesc(s) { return sprintf("\033Ptmux;\033%s\033\\", s) }
 		function normalize_term() {
 			# Term detection voodoo
@@ -3967,7 +3941,51 @@ case "$1" in
 		s && /^[0-9]+:/ { printf colesc, $1, substr($2,2) > "/dev/tty" }
 		s && /^cursorColor+:/ { printf curesc, substr($2,2) > "/dev/tty" }
 
-		/^ *$/ {s = 0}
+		s && /^ *$/ {s = 0}
 	'
-;;
+}
+
+if [ -z "$1" ]; then
+	echo "Usage: $0 [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] <theme>"
+	exit
+fi
+
+case "$1" in
+-i2|--interactive2)
+	command -v fzf 2> /dev/null || { echo "ERROR: -i requires fzf" >&2; exit 1; }
+	"$0" -l|fzf\
+		--bind "enter:execute($0 {})"\
+		--bind "down:down+execute-silent($0 {} &)"\
+		--bind "up:up+execute-silent($0 {} &)"\
+		--bind "change:execute-silent($0 {} &)"\
+		--preview "$0 --preview2"
+	;;
+-r|--random)
+	theme=$($0 -l|sort -R|head -n1)
+	$0 "$theme"
+	echo "Theme: $theme"
+	;;
+-i|--interactive)
+	command -v fzf 2> /dev/null || { echo "ERROR: -i requires fzf" >&2; exit 1; }
+	if [ -z "$COLORTERM" ]; then
+		echo "This does not appear to be a truecolor terminal, try -i2 instead or set COLORTERM if your terminal has truecolor support."
+		exit 1
+	else
+		"$0" -l|fzf\
+			--bind "enter:execute-silent($0 {})"\
+			--preview "$0 --preview {}"
+	fi
+	;;
+-l|--list)
+	echo "$themes"| awk '/^ *$/ {i=0;next} !i {i=1;print}'
+	;;
+--preview2)
+	preview2 "$2"
+	;;
+--preview)
+	preview "$2"
+	;;
+*)
+	apply "$1"
+	;;
 esac
