@@ -3804,6 +3804,7 @@ gruvbox-material-light-hard
 15: #654735
 background: #f9f5d7
 foreground: #654735
+cursorColor: #654735
 
 gruvbox-material-dark-hard
 0: #1d2021
@@ -3824,6 +3825,7 @@ gruvbox-material-dark-hard
 15: #d4be98
 background: #1d2021
 foreground: #d4be98
+cursorColor: #d4be98
 
 gruvbox-material-light-medium
 0: #fbf1c7
@@ -3844,6 +3846,7 @@ gruvbox-material-light-medium
 15: #654735
 background: #fbf1c7
 foreground: #654735
+cursorColor: #654735
 
 gruvbox-material-dark-medium
 0: #282828
@@ -3864,6 +3867,7 @@ gruvbox-material-dark-medium
 15: #d4be98
 background: #282828
 foreground: #d4be98
+cursorColor: #d4be98
 
 gruvbox-material-light-soft
 0: #f2e5bc
@@ -3884,6 +3888,7 @@ gruvbox-material-light-soft
 15: #654735
 background: #f2e5bc
 foreground: #654735
+cursorColor: #654735
 
 gruvbox-material-dark-soft
 0: #32302f
@@ -3904,6 +3909,7 @@ gruvbox-material-dark-soft
 15: #d4be98
 background: #32302f
 foreground: #d4be98
+cursorColor: #d4be98
 
 gruvbox-mix-light-hard
 0: #f9f5d7
@@ -3924,6 +3930,7 @@ gruvbox-mix-light-hard
 15: #514036
 background: #f9f5d7
 foreground: #514036
+cursorColor: #514036
 
 gruvbox-mix-dark-hard
 0: #1d2021
@@ -3944,6 +3951,7 @@ gruvbox-mix-dark-hard
 15: #e2cca9
 background: #1d2021
 foreground: #e2cca9
+cursorColor: #e2cca9
 
 gruvbox-mix-light-medium
 0: #fbf1c7
@@ -3964,6 +3972,7 @@ gruvbox-mix-light-medium
 15: #514036
 background: #fbf1c7
 foreground: #514036
+cursorColor: #514036
 
 gruvbox-mix-dark-medium
 0: #282828
@@ -3984,6 +3993,7 @@ gruvbox-mix-dark-medium
 15: #e2cca9
 background: #282828
 foreground: #e2cca9
+cursorColor: #e2cca9
 
 gruvbox-mix-light-soft
 0: #f2e5bc
@@ -4004,6 +4014,7 @@ gruvbox-mix-light-soft
 15: #514036
 background: #f2e5bc
 foreground: #514036
+cursorColor: #514036
 
 gruvbox-mix-dark-soft
 0: #32302f
@@ -4024,6 +4035,7 @@ gruvbox-mix-dark-soft
 15: #e2cca9
 background: #32302f
 foreground: #e2cca9
+cursorColor: #e2cca9
 
 gruvbox-original-light-hard
 0: #f9f5d7
@@ -4044,6 +4056,7 @@ gruvbox-original-light-hard
 15: #3c3836
 background: #f9f5d7
 foreground: #3c3836
+cursorColor: #3c3836
 
 gruvbox-original-dark-hard
 0: #1d2021
@@ -4064,6 +4077,7 @@ gruvbox-original-dark-hard
 15: #ebdbb2
 background: #1d2021
 foreground: #ebdbb2
+cursorColor: #ebdbb2
 
 gruvbox-original-light-medium
 0: #fbf1c7
@@ -4084,6 +4098,7 @@ gruvbox-original-light-medium
 15: #3c3836
 background: #fbf1c7
 foreground: #3c3836
+cursorColor: #3c3836
 
 gruvbox-original-dark-medium
 0: #282828
@@ -4104,6 +4119,7 @@ gruvbox-original-dark-medium
 15: #ebdbb2
 background: #282828
 foreground: #ebdbb2
+cursorColor: #ebdbb2
 
 gruvbox-original-light-soft
 0: #f2e5bc
@@ -4124,6 +4140,7 @@ gruvbox-original-light-soft
 15: #3c3836
 background: #f2e5bc
 foreground: #3c3836
+cursorColor: #3c3836
 
 gruvbox-original-dark-soft
 0: #32302f
@@ -4144,6 +4161,7 @@ gruvbox-original-dark-soft
 15: #ebdbb2
 background: #32302f
 foreground: #ebdbb2
+cursorColor: #ebdbb2
 !
 )
 
