@@ -3784,6 +3784,366 @@ zenburn
 background: #3f3f3f
 foreground: #dcdccc
 cursorColor: #dcdccc
+
+gruvbox-material-light-hard
+0: #f9f5d7
+1: #c14a4a
+2: #6c782e
+3: #b47109
+4: #45707a
+5: #945e80
+6: #4c7a5d
+7: #654735
+8: #f9f5d7
+9: #c14a4a
+10: #6c782e
+11: #b47109
+12: #45707a
+13: #945e80
+14: #4c7a5d
+15: #654735
+background: #f9f5d7
+foreground: #654735
+
+gruvbox-material-dark-hard
+0: #1d2021
+1: #ea6962
+2: #a9b665
+3: #d8a657
+4: #7daea3
+5: #d3869b
+6: #89b482
+7: #d4be98
+8: #1d2021
+9: #ea6962
+10: #a9b665
+11: #d8a657
+12: #7daea3
+13: #d3869b
+14: #89b482
+15: #d4be98
+background: #1d2021
+foreground: #d4be98
+
+gruvbox-material-light-medium
+0: #fbf1c7
+1: #c14a4a
+2: #6c782e
+3: #b47109
+4: #45707a
+5: #945e80
+6: #4c7a5d
+7: #654735
+8: #fbf1c7
+9: #c14a4a
+10: #6c782e
+11: #b47109
+12: #45707a
+13: #945e80
+14: #4c7a5d
+15: #654735
+background: #fbf1c7
+foreground: #654735
+
+gruvbox-material-dark-medium
+0: #282828
+1: #ea6962
+2: #a9b665
+3: #d8a657
+4: #7daea3
+5: #d3869b
+6: #89b482
+7: #d4be98
+8: #282828
+9: #ea6962
+10: #a9b665
+11: #d8a657
+12: #7daea3
+13: #d3869b
+14: #89b482
+15: #d4be98
+background: #282828
+foreground: #d4be98
+
+gruvbox-material-light-soft
+0: #f2e5bc
+1: #c14a4a
+2: #6c782e
+3: #b47109
+4: #45707a
+5: #945e80
+6: #4c7a5d
+7: #654735
+8: #f2e5bc
+9: #c14a4a
+10: #6c782e
+11: #b47109
+12: #45707a
+13: #945e80
+14: #4c7a5d
+15: #654735
+background: #f2e5bc
+foreground: #654735
+
+gruvbox-material-dark-soft
+0: #32302f
+1: #ea6962
+2: #a9b665
+3: #d8a657
+4: #7daea3
+5: #d3869b
+6: #89b482
+7: #d4be98
+8: #32302f
+9: #ea6962
+10: #a9b665
+11: #d8a657
+12: #7daea3
+13: #d3869b
+14: #89b482
+15: #d4be98
+background: #32302f
+foreground: #d4be98
+
+gruvbox-mix-light-hard
+0: #f9f5d7
+1: #af2528
+2: #72761e
+3: #b4730e
+4: #266b79
+5: #924f79
+6: #477a5b
+7: #514036
+8: #f9f5d7
+9: #af2528
+10: #72761e
+11: #b4730e
+12: #266b79
+13: #924f79
+14: #477a5b
+15: #514036
+background: #f9f5d7
+foreground: #514036
+
+gruvbox-mix-dark-hard
+0: #1d2021
+1: #f2594b
+2: #b0b846
+3: #e9b143
+4: #80aa9e
+5: #d3869b
+6: #8bba7f
+7: #e2cca9
+8: #1d2021
+9: #f2594b
+10: #b0b846
+11: #e9b143
+12: #80aa9e
+13: #d3869b
+14: #8bba7f
+15: #e2cca9
+background: #1d2021
+foreground: #e2cca9
+
+gruvbox-mix-light-medium
+0: #fbf1c7
+1: #af2528
+2: #72761e
+3: #b4730e
+4: #266b79
+5: #924f79
+6: #477a5b
+7: #514036
+8: #fbf1c7
+9: #af2528
+10: #72761e
+11: #b4730e
+12: #266b79
+13: #924f79
+14: #477a5b
+15: #514036
+background: #fbf1c7
+foreground: #514036
+
+gruvbox-mix-dark-medium
+0: #282828
+1: #f2594b
+2: #b0b846
+3: #e9b143
+4: #80aa9e
+5: #d3869b
+6: #8bba7f
+7: #e2cca9
+8: #282828
+9: #f2594b
+10: #b0b846
+11: #e9b143
+12: #80aa9e
+13: #d3869b
+14: #8bba7f
+15: #e2cca9
+background: #282828
+foreground: #e2cca9
+
+gruvbox-mix-light-soft
+0: #f2e5bc
+1: #af2528
+2: #72761e
+3: #b4730e
+4: #266b79
+5: #924f79
+6: #477a5b
+7: #514036
+8: #f2e5bc
+9: #af2528
+10: #72761e
+11: #b4730e
+12: #266b79
+13: #924f79
+14: #477a5b
+15: #514036
+background: #f2e5bc
+foreground: #514036
+
+gruvbox-mix-dark-soft
+0: #32302f
+1: #f2594b
+2: #b0b846
+3: #e9b143
+4: #80aa9e
+5: #d3869b
+6: #8bba7f
+7: #e2cca9
+8: #32302f
+9: #f2594b
+10: #b0b846
+11: #e9b143
+12: #80aa9e
+13: #d3869b
+14: #8bba7f
+15: #e2cca9
+background: #32302f
+foreground: #e2cca9
+
+gruvbox-original-light-hard
+0: #f9f5d7
+1: #9d0006
+2: #79740e
+3: #b57614
+4: #076678
+5: #8f3f71
+6: #427b58
+7: #3c3836
+8: #f9f5d7
+9: #9d0006
+10: #79740e
+11: #b57614
+12: #076678
+13: #8f3f71
+14: #427b58
+15: #3c3836
+background: #f9f5d7
+foreground: #3c3836
+
+gruvbox-original-dark-hard
+0: #1d2021
+1: #fb4934
+2: #b8bb26
+3: #fabd2f
+4: #83a598
+5: #d3869b
+6: #8ec07c
+7: #ebdbb2
+8: #1d2021
+9: #fb4934
+10: #b8bb26
+11: #fabd2f
+12: #83a598
+13: #d3869b
+14: #8ec07c
+15: #ebdbb2
+background: #1d2021
+foreground: #ebdbb2
+
+gruvbox-original-light-medium
+0: #fbf1c7
+1: #9d0006
+2: #79740e
+3: #b57614
+4: #076678
+5: #8f3f71
+6: #427b58
+7: #3c3836
+8: #fbf1c7
+9: #9d0006
+10: #79740e
+11: #b57614
+12: #076678
+13: #8f3f71
+14: #427b58
+15: #3c3836
+background: #fbf1c7
+foreground: #3c3836
+
+gruvbox-original-dark-medium
+0: #282828
+1: #fb4934
+2: #b8bb26
+3: #fabd2f
+4: #83a598
+5: #d3869b
+6: #8ec07c
+7: #ebdbb2
+8: #282828
+9: #fb4934
+10: #b8bb26
+11: #fabd2f
+12: #83a598
+13: #d3869b
+14: #8ec07c
+15: #ebdbb2
+background: #282828
+foreground: #ebdbb2
+
+gruvbox-original-light-soft
+0: #f2e5bc
+1: #9d0006
+2: #79740e
+3: #b57614
+4: #076678
+5: #8f3f71
+6: #427b58
+7: #3c3836
+8: #f2e5bc
+9: #9d0006
+10: #79740e
+11: #b57614
+12: #076678
+13: #8f3f71
+14: #427b58
+15: #3c3836
+background: #f2e5bc
+foreground: #3c3836
+
+gruvbox-original-dark-soft
+0: #32302f
+1: #fb4934
+2: #b8bb26
+3: #fabd2f
+4: #83a598
+5: #d3869b
+6: #8ec07c
+7: #ebdbb2
+8: #32302f
+9: #fb4934
+10: #b8bb26
+11: #fabd2f
+12: #83a598
+13: #d3869b
+14: #8ec07c
+15: #ebdbb2
+background: #32302f
+foreground: #ebdbb2
 !
 )
 
@@ -4006,6 +4366,7 @@ case "$1" in
 		--bind "change:execute-silent(THEME_HISTFILE= $0 {} &)"\
 		--bind "ctrl-c:execute($0 {};echo {})+abort"\
 		--bind "esc:execute($0 {};echo {})+abort"\
+		--no-sort\
 		--preview "$0 --preview2"
 	;;
 -r|--random)
@@ -4024,6 +4385,7 @@ case "$1" in
 			--bind "ctrl-c:execute(echo {})+abort"\
 			--bind "esc:execute(echo {})+abort"\
 			--bind "enter:execute-silent($0 {})"\
+			--no-sort\
 			--preview "$0 --preview {}"
 	fi
 	;;

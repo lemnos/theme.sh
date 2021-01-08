@@ -58,7 +58,12 @@ theme automatically you can put
 
 ```
 export THEME_HISTFILE=~/.theme_history
-[ -e "$THEME_HISTFILE" ] && theme.sh "$(tail -n1 "$THEME_HISTFILE")"
+[ -e "$THEME_HISTFILE" ] && theme.sh "$(theme.sh -l|tail -n1)"
+
+# Optional  
+
+bind -x '"\x0f":"theme.sh $(theme.sh -l|tail -n2|head -n1)"' #Binds C-o to the previously active theme.
+alias th='theme.sh -i'
 ```
 
 in your `~/.bashrc`.
