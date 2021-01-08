@@ -701,24 +701,24 @@ foreground: #b9bcba
 cursorColor: #b9bcba
 
 dracula
-0: #44475a
+0: #000000
 1: #ff5555
 2: #50fa7b
-3: #ffb86c
-4: #8be9fd
-5: #bd93f9
-6: #ff79c6
-7: #94A3A5
-8: #000000
-9: #ff5555
-10: #50fa7b
-11: #ffb86c
-12: #8be9fd
-13: #bd93f9
-14: #ff79c6
-15: #ffffff
-background: #282a36
-foreground: #94A3A5
+3: #ffe46c
+4: #bd93f9
+5: #ff79c6
+6: #8be9fd
+7: #bfbfbf
+8: #4d4d4d
+9: #ff6e67
+10: #5af78e
+11: #f4f99d
+12: #caa9fa
+13: #ff92d0
+14: #9aedfe
+15: #e6e6e6
+background: #373949
+foreground: #f8f8f2
 cursorColor: #94A3A5
 
 earthsong
