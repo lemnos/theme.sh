@@ -3936,17 +3936,56 @@ apply() {
 			}
 		}
 
-		$0 == target {s++}
+		$0 == target {found++}
 
-		s && /^foreground:/ { printf fgesc, substr($2,2) > "/dev/tty" }
-		s && /^background:/ { printf bgesc, substr($2,2) > "/dev/tty" }
-		s && /^[0-9]+:/ { printf colesc, $1, substr($2,2) > "/dev/tty" }
-		s && /^cursorColor+:/ { printf curesc, substr($2,2) > "/dev/tty" }
+		found && /^foreground:/ { printf fgesc, substr($2,2) > "/dev/tty" }
+		found && /^background:/ { printf bgesc, substr($2,2) > "/dev/tty" }
+		found && /^[0-9]+:/ { printf colesc, $1, substr($2,2) > "/dev/tty" }
+		found && /^cursorColor+:/ { printf curesc, substr($2,2) > "/dev/tty" }
 
-		s && /^ *$/ {
-			f=ENVIRON["CURRENT_THEME_FILE"]
-			if(f) print target > f
-			exit
+		found && /^ *$/ { exit }
+
+		END {
+			f=ENVIRON["THEME_HISTFILE"]
+			if(found && f) {
+				while((getline < f) > 0)
+					if($0 != target)
+						out = out $0 "\n"
+				close(f)
+
+				out = out target
+				print out > f
+			}
+		}
+	'
+}
+
+list() {
+	echo "$themes"| awk '
+		BEGIN {
+			f = ENVIRON["THEME_HISTFILE"]
+			if(f) {
+				while((getline < f) > 0) {
+					mru[i++] = $0
+					seen[$0] = 1
+				}
+			}
+
+			s = 1
+		}
+
+		/^ *$/ { s=1; next }
+
+		s {
+			if(!seen[$0])
+				print
+
+			s = 0
+		}
+
+		END {
+			for(i = 0;i < length(mru);i++)
+				print mru[i]
 		}
 	'
 }
@@ -3960,12 +3999,13 @@ case "$1" in
 -i2|--interactive2)
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	"$0" -l|fzf\
+		--tac\
 		--bind "enter:execute-silent($0 {})"\
-		--bind "down:down+execute-silent($0 {} &)"\
-		--bind "up:up+execute-silent($0 {} &)"\
-		--bind "change:execute-silent($0 {} &)"\
-		--bind "ctrl-c:execute(echo {})+abort"\
-		--bind "esc:execute(echo {})+abort"\
+		--bind "down:down+execute-silent(THEME_HISTFILE= $0 {} &)"\
+		--bind "up:up+execute-silent(THEME_HISTFILE= $0 {} &)"\
+		--bind "change:execute-silent(THEME_HISTFILE= $0 {} &)"\
+		--bind "ctrl-c:execute($0 {};echo {})+abort"\
+		--bind "esc:execute($0 {};echo {})+abort"\
 		--preview "$0 --preview2"
 	;;
 -r|--random)
@@ -3980,6 +4020,7 @@ case "$1" in
 		exit 1
 	else
 		"$0" -l|fzf\
+			--tac\
 			--bind "ctrl-c:execute(echo {})+abort"\
 			--bind "esc:execute(echo {})+abort"\
 			--bind "enter:execute-silent($0 {})"\
@@ -3987,7 +4028,7 @@ case "$1" in
 	fi
 	;;
 -l|--list)
-	echo "$themes"| awk '/^ *$/ {i=0;next} !i {i=1;print}'
+	list
 	;;
 --preview2)
 	preview2 "$2"

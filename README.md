@@ -38,7 +38,7 @@ Then:
 > theme.sh zenburn
 ```
 
-or simply
+or
 
 ```
 > theme.sh -i #Interactive theme selection (requires fzf)
@@ -52,16 +52,16 @@ theme.sh <theme>
 
 in your `~/.bashrc`
 
-If `$CURRENT_THEME_FILE` is set then the current theme will be written to the
-path it contains when `theme.sh` temrinates. Thus to make theme changes
-persistent you can simply add
+If `$THEME_HISTFILE` is set then the path is contains will be used
+to store recently selected themes. To load the most recently selected
+theme automatically you can put
 
 ```
-export CURRENT_THEME_FILE=~/.current_theme
-[ -e "$CURRENT_THEME_FILE" ] && theme.sh "$(cat "$CURRENT_THEME_FILE")"
+export THEME_HISTFILE=~/.theme_history
+[ -e "$THEME_HISTFILE" ] && theme.sh "$(tail -n1 "$THEME_HISTFILE")"
 ```
 
-to your `~/.bashrc`.
+in your `~/.bashrc`.
 
 # Supported Terminals
 
