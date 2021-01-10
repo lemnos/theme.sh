@@ -4317,23 +4317,34 @@ apply() {
 
 		$0 == target {found++}
 
-		found && /^foreground:/ { printf fgesc, substr($2,2) > "/dev/tty" }
-		found && /^background:/ { printf bgesc, substr($2,2) > "/dev/tty" }
-		found && /^[0-9]+:/ { printf colesc, $1, substr($2,2) > "/dev/tty" }
-		found && /^cursorColor+:/ { printf curesc, substr($2,2) > "/dev/tty" }
+		found && /^foreground:/ {fg=$2}
+		found && /^background:/ {bg=$2}
+		found && /^[0-9]+:/ {colors[int($1)]=$2}
+		found && /^cursorColor:/ {cursor=$2}
 
 		found && /^ *$/ { exit }
 
 		END {
-			f=ENVIRON["THEME_HISTFILE"]
-			if(found && f) {
-				while((getline < f) > 0)
-					if($0 != target)
-						out = out $0 "\n"
-				close(f)
+			if(found) {
+				for(c in colors) {
+					if(!(term ~ /st-.*/ && (c == 0 || c == 7)))
+						printf colesc, c, substr(colors[c], 2) > "/dev/tty"
+				}
 
-				out = out target
-				print out > f
+				printf fgesc, substr(fg, 2) > "/dev/tty"
+				printf bgesc, substr(bg, 2) > "/dev/tty"
+				printf curesc, substr(cursor, 2) > "/dev/tty"
+
+				f=ENVIRON["THEME_HISTFILE"]
+				if(f) {
+					while((getline < f) > 0)
+						if($0 != target)
+							out = out $0 "\n"
+					close(f)
+
+					out = out target
+					print out > f
+				}
 			}
 		}
 	'
@@ -4380,9 +4391,9 @@ case "$1" in
 	"$0" -l|fzf\
 		--tac\
 		--bind "enter:execute-silent($0 {})"\
-		--bind "down:down+execute-silent(THEME_HISTFILE= $0 {} &)"\
-		--bind "up:up+execute-silent(THEME_HISTFILE= $0 {} &)"\
-		--bind "change:execute-silent(THEME_HISTFILE= $0 {} &)"\
+		--bind "down:down+execute-silent(THEME_HISTFILE= $0 {})"\
+		--bind "up:up+execute-silent(THEME_HISTFILE= $0 {})"\
+		--bind "change:execute-silent(THEME_HISTFILE= $0 {})"\
 		--bind "ctrl-c:execute($0 {};echo {})+abort"\
 		--bind "esc:execute($0 {};echo {})+abort"\
 		--no-sort\
