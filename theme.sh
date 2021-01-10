@@ -2252,6 +2252,7 @@ nord-light
 15: #DEDEDE
 background: #ebeaf2
 foreground: #004f7c
+cursorColor: #004f7c
 
 nord
 0: #3B4252
@@ -4344,7 +4345,7 @@ list() {
 			f = ENVIRON["THEME_HISTFILE"]
 			if(f) {
 				while((getline < f) > 0) {
-					mru[i++] = $0
+					mru[nmru++] = $0
 					seen[$0] = 1
 				}
 			}
@@ -4362,7 +4363,7 @@ list() {
 		}
 
 		END {
-			for(i = 0;i < length(mru);i++)
+			for(i = 0;i < nmru;i++)
 				print mru[i]
 		}
 	'
