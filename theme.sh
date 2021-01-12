@@ -2841,6 +2841,90 @@ background: #09141b
 foreground: #deb88d
 cursorColor: #deb88d
 
+selenized-black
+0: #252525
+1: #ed4a46
+2: #70b433
+3: #dbb32d
+4: #368aeb
+5: #eb6eb7
+6: #3fc5b7
+7: #777777
+8: #3b3b3b
+9: #ff5e56
+10: #83c746
+11: #efc541
+12: #4f9cfe
+13: #ff81ca
+14: #56d8c9
+15: #dedede
+background: #181818
+foreground: #b9b9b9
+cursorColor: #b9b9b9
+
+selenized-dark
+0: #184956
+1: #fa5750
+2: #75b938
+3: #dbb32d
+4: #4695f7
+5: #f275be
+6: #41c7b9
+7: #72898f
+8: #2d5b69
+9: #ff665c
+10: #84c747
+11: #ebc13d
+12: #58a3ff
+13: #ff84cd
+14: #53d6c7
+15: #cad8d9
+background: #103c48
+foreground: #adbcbc
+cursorColor: #adbcbc
+
+selenized-light
+0: #ece3cc
+1: #d2212d
+2: #489100
+3: #ad8900
+4: #0072d4
+5: #ca4898
+6: #009c8f
+7: #909995
+8: #d5cdb6
+9: #cc1729
+10: #428b00
+11: #a78300
+12: #006dce
+13: #c44392
+14: #00978a
+15: #3a4d53
+background: #fbf3db
+foreground: #53676d
+cursorColor: #53676d
+
+selenized-white
+0: #ebebeb
+1: #d6000c
+2: #1d9700
+3: #c49700
+4: #0064e4
+5: #dd0f9d
+6: #00ad9c
+7: #878787
+8: #cdcdcd
+9: #bf0000
+10: #008400
+11: #af8500
+12: #0054cf
+13: #c7008b
+14: #009a8a
+15: #282828
+background: #ffffff
+foreground: #474747
+cursorColor: #474747
+
 seti
 0: #323232
 1: #c22832
