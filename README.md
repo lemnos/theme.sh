@@ -72,7 +72,7 @@ in your `~/.bashrc`.
 
 Below is a list of terminals on which theme.sh is known to work:
 	
- - kitty
+ - kitty (The linux terminal, not the PUTTY fork.)
  - gnome-terminal
  - terminator
  - st
