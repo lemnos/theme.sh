@@ -5869,11 +5869,6 @@ apply() {
 				fgesc="\033]Pg%s\033\\"
 				colesc="\033]P%x%s\033\\"
 				curesc="\033]Pl%s\033\\"
-			} else if(term ~ /st-.*/) {
-				fgesc="\033]4;7;#%s\007"
-				bgesc="\033]4;0;#%s\007"
-				colesc="\033]4;%d;#%s\007"
-				curesc="\033]4;256;#%s\007"
 			} else {
 				#Terms that play nice :)
 
@@ -5902,10 +5897,8 @@ apply() {
 
 		END {
 			if(found) {
-				for(c in colors) {
-					if(!(term ~ /st-.*/ && (c == 0 || c == 7)))
-						printf colesc, c, substr(colors[c], 2) > "/dev/tty"
-				}
+				for(c in colors)
+					printf colesc, c, substr(colors[c], 2) > "/dev/tty"
 
 				printf fgesc, substr(fg, 2) > "/dev/tty"
 				printf bgesc, substr(bg, 2) > "/dev/tty"

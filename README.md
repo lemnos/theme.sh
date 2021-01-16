@@ -52,34 +52,51 @@ theme.sh <theme>
 
 in your `~/.bashrc`
 
+# Configuration
+
 If `$THEME_HISTFILE` is set then the path is contains will be used
-to store recently selected themes. To load the most recently selected
-theme automatically you can put
+to store recently selected themes.
+
+## Recommended `~/.bashrc`
+
+To load the most recently selected theme automatically you can put
 
 ```
-export THEME_HISTFILE=~/.theme_history
-[ -e "$THEME_HISTFILE" ] && theme.sh "$(theme.sh -l|tail -n1)"
+if command -v theme.sh > /dev/null; then
+	export THEME_HISTFILE=~/.theme_history
+	[ -e "$THEME_HISTFILE" ] && theme.sh "$(theme.sh -l|tail -n1)"
 
-# Optional  
+	# Optional  
 
-bind -x '"\x0f":"theme.sh $(theme.sh -l|tail -n2|head -n1)"' #Binds C-o to the previously active theme.
-alias th='theme.sh -i'
+	bind -x '"\x0f":"theme.sh $(theme.sh -l|tail -n2|head -n1)"' #Binds C-o to the previously active theme.
+	alias th='theme.sh -i'
+fi
 ```
 
 in your `~/.bashrc`.
+
+## Recommended `~/.vimrc`
+
+```
+colorscheme default
+set notermguicolors
+highlight Search ctermfg=0
+```
+
+The above makes vim play nicely with the stock terminal theme.
 
 # Supported Terminals
 
 Below is a list of terminals on which theme.sh is known to work:
 	
- - kitty (The linux terminal, not the PUTTY fork.)
+ - [kitty](https://github.com/kovidgoyal/kitty) (not KiTTY)
  - gnome-terminal
  - terminator
- - st
+ - st with the [appropriate patch](https://st.suckless.org/patches/osc_10_11_12/)
  - Terminal.app (osx)
  - iTerm2
  - alacritty
- - urxvt (non interactively unless the truecolor patch is installed)
+ - urxvt (non interactively unless the truecolor patch is applied)
  - any libvte based terminal
 
 
