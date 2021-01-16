@@ -3325,6 +3325,27 @@ background: #232e37
 foreground: #d9e6f2
 cursorColor: #d9e6f2
 
+palmtree
+0: #282A36
+1: #F37F97
+2: #5ADECD
+3: #F2A272
+4: #8897F4
+5: #C574DD
+6: #79E6F3
+7: #FDFDFD
+8: #666979
+9: #FF4971
+10: #18E3C8
+11: #FF8037
+12: #556FFF
+13: #B043D1
+14: #3FDCEE
+15: #BEBEC1
+background: #282A36
+foreground: #B043D1
+cursorColor: #3FDCEE 
+
 papercolor-dark
 0: #1c1c1c
 1: #af005f
