@@ -364,6 +364,27 @@ background: #fafafa
 foreground: #5b6673
 cursorColor: #ff6900
 
+ayu-mirage-simple-cursor
+0: #191e2a
+1: #ed8274
+2: #a6cc70
+3: #fad07b
+4: #6dcbfa
+5: #cfbafa
+6: #90e1c6
+7: #c7c7c7
+8: #686868
+9: #f28779
+10: #bae67e
+11: #ffd580
+12: #73d0ff
+13: #d4bfff
+14: #95e6cb
+15: #ffffff
+background: #212733
+foreground: #d9d7ce
+cursorColor: #d9d7ce
+
 ayu-mirage
 0: #191e2a
 1: #ed8274
