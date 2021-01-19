@@ -92,7 +92,7 @@ Below is a list of terminals on which theme.sh is known to work:
  - [kitty](https://github.com/kovidgoyal/kitty) (not KiTTY)
  - gnome-terminal
  - terminator
- - st with the [appropriate patch](https://st.suckless.org/patches/osc_10_11_12/)
+ - st with the [appropriate patch](https://st.suckless.org/patches/osc_10_11_12_2)
  - Terminal.app (osx)
  - iTerm2
  - alacritty
