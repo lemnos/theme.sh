@@ -7,6 +7,69 @@
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
 themes=$(cat <<!
+tokyo-day
+0: #e9e9ed
+1: #f52a65
+2: #587539
+3: #8c6c3e
+4: #2e7de9
+5: #9854f1
+6: #007197
+7: #6172b0
+8: #a1a6c5
+9: #f52a65
+10: #587539
+11: #8c6c3e
+12: #2e7de9
+13: #9854f1
+14: #007197
+15: #3760bf
+background: #e1e2e7
+foreground: #3760bf
+cursorColor: #3760bf
+
+tokyo-night
+0: #15161e
+1: #f7768e
+2: #9ece6a
+3: #e0af68
+4: #7aa2f7
+5: #bb9af7
+6: #7dcfff
+7: #a9b1d6
+8: #414868
+9: #f7768e
+10: #9ece6a
+11: #e0af68
+12: #7aa2f7
+13: #bb9af7
+14: #7dcfff
+15: #c0caf5
+background: #1a1b26
+foreground: #c0caf5
+cursorColor: #c0caf5
+
+tokyo-storm
+0: #1d202f
+1: #f7768e
+2: #9ece6a
+3: #e0af68
+4: #7aa2f7
+5: #bb9af7
+6: #7dcfff
+7: #a9b1d6
+8: #414868
+9: #f7768e
+10: #9ece6a
+11: #e0af68
+12: #7aa2f7
+13: #bb9af7
+14: #7dcfff
+15: #c0caf5
+background: #24283b
+foreground: #c0caf5
+cursorColor: #c0caf5
+
 3024-day
 0: #090300
 1: #db2d20
@@ -3347,25 +3410,25 @@ foreground: #d9e6f2
 cursorColor: #d9e6f2
 
 palmtree
-0: #282A36
-1: #F37F97
-2: #5ADECD
-3: #F2A272
-4: #8897F4
-5: #C574DD
-6: #79E6F3
-7: #FDFDFD
+0: #282a36
+1: #f37f97
+2: #5adecd
+3: #f2a272
+4: #8897f4
+5: #c574dd
+6: #79e6f3
+7: #fdfdfd
 8: #666979
-9: #FF4971
-10: #18E3C8
-11: #FF8037
-12: #556FFF
-13: #B043D1
-14: #3FDCEE
-15: #BEBEC1
-background: #282A36
-foreground: #B043D1
-cursorColor: #3FDCEE 
+9: #ff4971
+10: #18e3c8
+11: #ff8037
+12: #556fff
+13: #b043d1
+14: #3fdcee
+15: #bebec1
+background: #282a36
+foreground: #b043d1
+cursorColor: #3fdcee
 
 papercolor-dark
 0: #1c1c1c
@@ -5760,6 +5823,7 @@ gruvbox-original-dark-soft
 background: #32302f
 foreground: #ebdbb2
 cursorColor: #ebdbb2
+
 !
 )
 
