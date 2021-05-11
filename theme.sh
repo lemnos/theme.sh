@@ -7,6 +7,27 @@
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
 themes=$(cat <<!
+amora
+0: #28222d
+1: #ed3f7f
+2: #a2baa8
+3: #eacac0
+4: #9985d1
+5: #e68ac1
+6: #aabae7
+7: #dedbeb
+8: #302838
+9: #fb5c8e
+10: #bfd1c3
+11: #f0ddd8
+12: #b4a4de
+13: #edabd2
+14: #c4d1f5
+15: #edebf7
+background: #2a2331
+foreground: #dedbeb
+cursorColor: #dedbeb
+
 tokyo-day
 0: #e9e9ed
 1: #f52a65
@@ -5823,7 +5844,6 @@ gruvbox-original-dark-soft
 background: #32302f
 foreground: #ebdbb2
 cursorColor: #ebdbb2
-
 !
 )
 
