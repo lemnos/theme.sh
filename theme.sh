@@ -7,6 +7,27 @@
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
 themes=$(cat <<!
+spaceduck
+0: #000000
+1: #e33400
+2: #5ccc96
+3: #b3a1e6
+4: #00a3cc
+5: #f2ce00
+6: #7a5ccc
+7: #686f9a
+8: #686f9a
+9: #e33400
+10: #5ccc96
+11: #b3a1e6
+12: #00a3cc
+13: #f2ce00
+14: #7a5ccc
+15: #f0f1ce
+background: #0f111b
+foreground: #ecf0c1
+cursorColor: #ecf0c1
+
 amora
 0: #28222d
 1: #ed3f7f
