@@ -7,6 +7,27 @@
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
 themes=$(cat <<!
+embark
+0: #585273
+1: #F48FB1
+2: #A1EFD3
+3: #ffe6b3
+4: #91ddff
+5: #d4bfff
+6: #87DFEB
+7: #cbe3e7
+8: #585273
+9: #F02E6E
+10: #62d196
+11: #F2B482
+12: #65b2ff
+13: #a37acc
+14: #63f2f1
+15: #8A889D
+background: #1e1c31
+foreground: #cbe3e7
+cursorColor: #ecf0c1
+
 amora
 0: #28222d
 1: #ed3f7f
