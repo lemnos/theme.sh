@@ -9,23 +9,44 @@
 themes=$(cat <<!
 embark
 0: #585273
-1: #F48FB1
-2: #A1EFD3
+1: #f48fb1
+2: #a1efd3
 3: #ffe6b3
 4: #91ddff
 5: #d4bfff
-6: #87DFEB
+6: #87dfeb
 7: #cbe3e7
 8: #585273
-9: #F02E6E
+9: #f02e6e
 10: #62d196
-11: #F2B482
+11: #f2b482
 12: #65b2ff
 13: #a37acc
 14: #63f2f1
-15: #8A889D
+15: #8a889d
 background: #1e1c31
 foreground: #cbe3e7
+cursorColor: #cbe3e7
+
+spaceduck
+0: #000000
+1: #e33400
+2: #5ccc96
+3: #b3a1e6
+4: #00a3cc
+5: #f2ce00
+6: #7a5ccc
+7: #686f9a
+8: #686f9a
+9: #e33400
+10: #5ccc96
+11: #b3a1e6
+12: #00a3cc
+13: #f2ce00
+14: #7a5ccc
+15: #f0f1ce
+background: #0f111b
+foreground: #ecf0c1
 cursorColor: #ecf0c1
 
 amora
@@ -5865,6 +5886,7 @@ gruvbox-original-dark-soft
 background: #32302f
 foreground: #ebdbb2
 cursorColor: #ebdbb2
+
 !
 )
 
