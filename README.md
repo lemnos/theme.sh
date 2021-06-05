@@ -85,6 +85,22 @@ highlight Search ctermfg=0
 
 The above makes vim play nicely with the stock terminal theme.
 
+## Adding Themes
+
+Kitty style theme configs can be ingested via `--add`. The filename is used as the theme name.
+
+E.G
+
+```
+curl -O 'https://raw.githubusercontent.com/dexpota/kitty-themes/master/themes/Solarized_Darcula.conf'
+theme.sh --add Solarized_Darcula.conf
+theme.sh Solarized_Darcula
+```
+
+Note that if a theme with the same name already exists it will be overwritten.
+
+If you find a theme that is already not included in the script you are encouraged to submit a PR (see CONTRIBUTING.md).
+
 # Supported Terminals
 
 Below is a list of terminals on which theme.sh is known to work:
