@@ -20,12 +20,23 @@ One theme script to rule them all.
  - Lets you keep your shell's init file as the single source of truth.
  - Lets you script theme changes
 
+# Installation
+
+Simply put `theme.sh` somewhere in your path.
+
+E.G
+
+```
+sudo curl -o /usr/bin/theme.sh 'https://raw.githubusercontent.com/lemnos/theme.sh/master/theme.sh' && sudo chmod +x /usr/bin/theme.sh
+```
+
 # Usage
 
-Put theme.sh somewhere in your `$PATH`
 
-Then:
 
+```
+Usage: theme.sh [--light] [--dark] [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] [-a|--add <kitty config>] <theme>
+```
 
 ```
 > theme.sh -l
@@ -50,19 +61,7 @@ Once you find something you like simply put
 theme.sh <theme>
 ```
 
-in your `~/.bashrc`
-
-See the output of `theme.sh` for a list of options.
-
-Note that `--dark` and `--light` can be used to filter most options.
-
-E.G
-
-```
-theme.sh --light -r
-```
-
-will select a random light theme.
+in your `~/.bashrc`.
 
 # Configuration
 
@@ -111,7 +110,9 @@ theme.sh --add Solarized_Darcula.conf
 theme.sh Solarized_Darcula
 ```
 
-Note that if a theme with the same name already exists it will be overwritten.
+If a theme with the same name already exists it will be overwritten.
+
+Note that adding themes requires write access to the script and may require `sudo` for system-wide installations.
 
 If you find a theme that is already not included in the script you are encouraged to submit a PR (see CONTRIBUTING.md).
 

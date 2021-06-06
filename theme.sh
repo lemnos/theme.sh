@@ -203,11 +203,11 @@ add() {
 	awk '{print} /^# Themes/ { exit }'  "$0" > "$tmp2"
 	normalize_themes "$tmp1" >> "$tmp2"
 
-	printf 'Successfully annexed %d themes. More! Feed me more!\n' $#
 
 	rm "$tmp1"
-	mv "$tmp2" "$0"
-	chmod +x "$0"
+	cat "$tmp2" > "$0" || exit $?
+
+	printf 'Successfully annexed %d themes. More! Feed me more!\n' $#
 }
 
 preview2() {
