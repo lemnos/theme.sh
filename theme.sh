@@ -6299,6 +6299,27 @@ foreground: #999993
 background: #101010
 cursor: #999993
 
+yachiyo
+0: #ff509c
+1: #86b79b
+2: #b9a9d7
+3: #d4b34e
+4: #ada883
+5: #9298e7
+6: #ff9c9c
+7: #a0be99
+8: #ff509c
+9: #86b79b
+10: #b9a9d7
+11: #d4b34e
+12: #ada883
+13: #9298e7
+14: #ff9c9c
+15: #a0be99
+foreground: #ffb692
+background: #44515d
+cursor: #ffb692
+
 zenburn
 0: #4d4d4d
 1: #705050
