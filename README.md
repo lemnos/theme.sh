@@ -52,6 +52,18 @@ theme.sh <theme>
 
 in your `~/.bashrc`
 
+See the output of `theme.sh` for a list of options.
+
+Note that `--dark` and `--light` can be used to filter most options.
+
+E.G
+
+```
+theme.sh --light -r
+```
+
+will select a random light theme.
+
 # Configuration
 
 If `$THEME_HISTFILE` is set then the path is contains will be used

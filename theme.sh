@@ -317,47 +317,77 @@ apply() {
 }
 
 list() {
-	awk '
+	case "$filterFlag" in
+		--light) filter=2 ;;
+		--dark) filter=1 ;;
+		*) filter=0 ;;
+	esac
+
+	awk -vfilter="$filter" -F": " '
 		BEGIN {
 			f = ENVIRON["THEME_HISTFILE"]
 			if(f) {
 				while((getline < f) > 0) {
 					mru[nmru++] = $0
-					seen[$0] = 1
+					mruIndex[$0] = 1
 				}
 			}
-
-			s = 1
 		}
 
-		/^# Themes/ { start++;next; }
-		!start { next }
+		function luma(s,    r,g,b,hexchars) {
+			hexchars = "0123456789abcdef"
+			s = tolower(s)
 
-		/^ *$/ { s=1; next }
+			r = (index(hexchars, substr(s, 2, 1))-1)*16+(index(hexchars, substr(s, 3, 1))-1)
+			g = (index(hexchars, substr(s, 4, 1))-1)*16+(index(hexchars, substr(s, 5, 1))-1)
+			b = (index(hexchars, substr(s, 6, 1))-1)*16+(index(hexchars, substr(s, 7, 1))-1)
 
-		s {
-			if(!seen[$0])
-				print
+			return 0.2126 * r + 0.7152 * g + 0.0722 * b
+		}
 
-			s = 0
+		/^# Theme/ { st++;next }
+		!st { next }
+
+		/^ *$/ { inner = 0;next }
+		!inner { name = $0;inner++;next }
+
+		/^background/ {
+			if((filter == 1 && luma($2) > 130) ||
+			   (filter == 2 && luma($2) <= 130))
+				next
+
+			candidates[name] = 1
 		}
 
 		END {
+			for(c in candidates) {
+				if(!mruIndex[c])
+					print(c)
+			}
+
 			for(i = 0;i < nmru;i++)
-				print mru[i]
+				if(candidates[mru[i]])
+					print(mru[i])
 		}
 	' < "$0"
 }
 
 if [ -z "$1" ]; then
-	echo "Usage: $(basename "$0") [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] [-a|--add <kitty config>] <theme>"
+	echo "Usage: $(basename "$0") [--light] [--dark] [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] [-a|--add <kitty config>] <theme>"
 	exit
 fi
 
 case "$1" in
+	--dark|--light)
+		filterFlag=$1
+		shift
+		;;
+esac
+
+case "$1" in
 -i2|--interactive2)
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
-	"$0" -l|fzf\
+	"$0" $filterFlag -l|fzf\
 		--tac\
 		--bind "enter:execute-silent($0 {})"\
 		--bind "down:down+execute-silent(THEME_HISTFILE= $0 {})"\
@@ -369,7 +399,7 @@ case "$1" in
 		--preview "$0 --preview2"
 	;;
 -r|--random)
-	theme=$($0 -l|sort -R|head -n1)
+	theme=$($0 $filterFlag -l|sort -R|head -n1)
 	$0 "$theme"
 	echo "Theme: $theme"
 	;;
@@ -379,7 +409,7 @@ case "$1" in
 		echo "This does not appear to be a truecolor terminal, try -i2 instead or set COLORTERM if your terminal has truecolor support."
 		exit 1
 	else
-		"$0" -l|fzf\
+		"$0" $filterFlag -l|fzf\
 			--tac\
 			--bind "ctrl-c:execute(echo {})+abort"\
 			--bind "esc:execute(echo {})+abort"\
