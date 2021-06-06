@@ -82,6 +82,8 @@ if command -v theme.sh > /dev/null; then
 
 	bind -x '"\x0f":"theme.sh $(theme.sh -l|tail -n2|head -n1)"' #Binds C-o to the previously active theme.
 	alias th='theme.sh -i'
+	alias thl='theme.sh --light -i'
+	alias thd='theme.sh --dark -i'
 fi
 ```
 
