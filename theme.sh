@@ -143,7 +143,7 @@ normalize_themes() {
 # Generate themes from one or more supplied kitty config files.
 
 generate_themes() {
-	awk -vargc=$# '
+	awk -v argc=$# '
 		function chkProp(prop) {
 			if(!props[prop]) {
 				printf "ABORTING: %s is missing required property '\''%s'\''\n", currentFile, prop > "/dev/stderr"
@@ -323,7 +323,7 @@ list() {
 		*) filter=0 ;;
 	esac
 
-	awk -vfilter="$filter" -F": " '
+	awk -v filter="$filter" -F": " '
 		BEGIN {
 			f = ENVIRON["THEME_HISTFILE"]
 			if(f) {
