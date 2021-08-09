@@ -5293,24 +5293,24 @@ cursor: #1a1a1a
 
 srcery
 0: #1c1b19
-1: #ff3128
+1: #ef2f27
 2: #519f50
 3: #fbb829
-4: #5573a3
+4: #2c78bf
 5: #e02c6d
 6: #0aaeb3
-7: #918175
-8: #2d2b28
+7: #baa67f
+8: #918175
 9: #f75341
 10: #98bc37
 11: #fed06e
-12: #8eb2f7
-13: #e35682
-14: #53fde9
+12: #68a8e4
+13: #ff5c8f
+14: #2be4d0
 15: #fce8c3
-foreground: #ebdbb2
-background: #282828
-cursor: #ebdbb2
+foreground: #fce8c3
+background: #1c1b19
+cursor: #fbb829
 
 substrata
 0: #2e313d
