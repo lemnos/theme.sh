@@ -369,7 +369,7 @@ list() {
 				if(candidates[mru[i]])
 					print(mru[i])
 		}
-	' < "$0"
+	' < "$0" | sort
 }
 
 if [ -z "$1" ]; then
