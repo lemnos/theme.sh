@@ -68,12 +68,11 @@ preview() {
 			# Note: Some terminals use different colors for bolded text and may produce slightly different ls output.
 
 			puts("")
-			puts(" # ls --color -l")
-			puts("    total 4")
-			puts("    -rw-r--r-- 1 user user    0 Jan  0 02:39 file")
-			puts(sprintf("    drwxr-xr-x 2 user user 4096 Jan  0 02:39 \x1b[1m%sdir/", fgesc(a[4])))
-			puts(sprintf("    -rwxr-xr-x 1 user user    0 Jan  0 02:39 \x1b[1m%sexecutable", fgesc(a[10])))
-			puts(sprintf("    lrwxrwxrwx 1 user user   15 Jan  0 02:40 \x1b[1m%ssymlink\x1b[0m%s%s -> /etc/symlink", fgesc(a[6]), fgesc(fg), bgesc(bg)))
+			puts(" # ls --color -F")
+			puts(sprintf("    file"))
+			puts(sprintf("    \x1b[1m%sdir/", fgesc(a[4])))
+			puts(sprintf("    \x1b[1m%sexecutable", fgesc(a[10])))
+			puts(sprintf("    \x1b[1m%ssymlink\x1b[0m%s%s", fgesc(a[6]), fgesc(fg), bgesc(bg)))
 
 
 			while(nr > 0) puts("")
@@ -230,12 +229,11 @@ preview2() {
 	printf '\033[97mColor 15\n'
 
 	printf '\n\033[0m'
-	printf '# ls --color -lF\n'
-	printf '    total 4\n'
-	printf '    -rw-r--r-- 1 user user    0 Jan  0 02:39 file\n'
-	printf '    drwxr-xr-x 2 user user 4096 Jan  0 02:39 \033[01;34mdir/\033[0m\n'
-	printf '    -rwxr-xr-x 1 user user    0 Jan  0 02:39 \033[01;32mexecutable\033[0m*\n'
-	printf '    lrwxrwxrwx 1 user user   15 Jan  0 02:40 \033[01;36msymlink\033[0m -> /etc/symlink\n'
+	printf '# ls --color -F\n'
+	printf '    file\n'
+	printf '    \033[01;34mdir/\033[0m\n'
+	printf '    \033[01;32mexecutable\033[0m*\n'
+	printf '    \033[01;36msymlink\033[0m\n'
 
 	printf '\033[0m'
 }
