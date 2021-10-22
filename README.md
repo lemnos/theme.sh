@@ -30,6 +30,12 @@ E.G
 sudo curl -o /usr/bin/theme.sh 'https://raw.githubusercontent.com/lemnos/theme.sh/master/theme.sh' && sudo chmod +x /usr/bin/theme.sh
 ```
 
+or (OSX)
+
+```
+sudo curl -o /usr/local/bin/theme.sh 'https://raw.githubusercontent.com/lemnos/theme.sh/master/theme.sh' && sudo chmod +x /usr/local/bin/theme.sh
+```
+
 # Usage
 
 
@@ -65,23 +71,23 @@ in your `~/.bashrc`.
 
 # Configuration
 
-If `$THEME_HISTFILE` is set then the path is contains will be used
-to store recently selected themes.
-
 ## Recommended `~/.bashrc`
 
 To load the most recently selected theme automatically you can put
 
 ```
 if command -v theme.sh > /dev/null; then
-	export THEME_HISTFILE=~/.theme_history
-	[ -e "$THEME_HISTFILE" ] && theme.sh "$(theme.sh -l|tail -n1)"
+	[ -e ~/.theme_history ] && theme.sh "$(theme.sh -l|tail -n1)"
 
 	# Optional  
 
 	bind -x '"\x0f":"theme.sh $(theme.sh -l|tail -n2|head -n1)"' #Binds C-o to the previously active theme.
 	alias th='theme.sh -i'
+
+	# Interactively load a light theme
 	alias thl='theme.sh --light -i'
+
+	# Interactively load a dark theme
 	alias thd='theme.sh --dark -i'
 fi
 ```

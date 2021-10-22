@@ -250,6 +250,10 @@ apply() {
 				term="iterm"
 			else if(ENVIRON["TMUX"]) {
 				"tmux display-message -p \"#{client_termname}\"" | getline term
+				"tmux display-message -p \"#{client_termtype}\"" | getline termname
+
+				if(substr(termname, 1, 5) == "iTerm")
+					term="iterm"
 				is_tmux++
 			} else
 				term=ENVIRON["TERM"]
@@ -301,19 +305,29 @@ apply() {
 				printf bgesc, substr(bg, 2) > "/dev/tty"
 				printf curesc, substr(cursor, 2) > "/dev/tty"
 
-				f=ENVIRON["THEME_HISTFILE"]
-				if(f) {
-					while((getline < f) > 0)
+				histfile=ENVIRON["HOME"]"/.theme_history"
+				inhibit_hist=ENVIRON["INHIBIT_THEME_HIST"]
+
+				if(!inhibit_hist) {
+					while((getline < histfile) > 0)
 						if($0 != target)
 							out = out $0 "\n"
-					close(f)
+					close(histfile)
 
 					out = out target
-					print out > f
+					print out > histfile
 				}
 			}
 		}
 	' < "$0"
+}
+
+isColorTerm() {
+	if [ -z "$TMUX" ]; then
+		[ ! -z "$COLORTERM" ]
+	else
+		tmux display-message -p '#{client_termfeatures}'|grep -q 256
+	fi
 }
 
 list() {
@@ -325,12 +339,10 @@ list() {
 
 	awk -v filter="$filter" -F": " '
 		BEGIN {
-			f = ENVIRON["THEME_HISTFILE"]
-			if(f) {
-				while((getline < f) > 0) {
-					mru[nmru++] = $0
-					mruIndex[$0] = 1
-				}
+			histfile=ENVIRON["HOME"]"/.theme_history"
+			while((getline < histfile) > 0) {
+				mru[nmru++] = $0
+				mruIndex[$0] = 1
 			}
 		}
 
@@ -390,9 +402,9 @@ case "$1" in
 	"$0" $filterFlag -l|fzf\
 		--tac\
 		--bind "enter:execute-silent($0 {})"\
-		--bind "down:down+execute-silent(THEME_HISTFILE= $0 {})"\
-		--bind "up:up+execute-silent(THEME_HISTFILE= $0 {})"\
-		--bind "change:execute-silent(THEME_HISTFILE= $0 {})"\
+		--bind "down:down+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
+		--bind "up:up+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
+		--bind "change:execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
 		--bind "ctrl-c:execute($0 {};echo {})+abort"\
 		--bind "esc:execute($0 {};echo {})+abort"\
 		--no-sort\
@@ -405,7 +417,7 @@ case "$1" in
 	;;
 -i|--interactive)
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
-	if [ -z "$COLORTERM" ]; then
+	if ! isColorTerm; then
 		echo "This does not appear to be a truecolor terminal, try -i2 instead or set COLORTERM if your terminal has truecolor support."
 		exit 1
 	else
