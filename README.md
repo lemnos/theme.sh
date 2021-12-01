@@ -148,3 +148,19 @@ Below is a list of terminals on which theme.sh is known to work:
 # Known issues
 
  - Will not work in screen (tmux uses the same TERM variable)
+
+# Acknowledgements
+
+ - Themes were contributed by numerous github contributors as well as scraped
+ from various projects. Some of the larger respositories include:
+
+  - https://github.com/dexpota/kitty-themes
+  - https://github.com/mbadolato/iTerm2-Color-Schemes
+  - https://github.com/chriskempson/base16-iterm2
+
+ A debt of gratitude is owed to these projects as well as well as those
+ who contributed directly to the repo, and of course the theme authors
+ themselves. A non exhaustive list of theme authors can be found in CREDITS.md
+ if you are the author of a theme and wish to be listed feel free to
+ submit a PR or contact me directly :).
+
