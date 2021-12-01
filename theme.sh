@@ -323,6 +323,8 @@ apply() {
 isColorTerm() {
 	if [ -z "$TMUX" ]; then
 		[ ! -z "$COLORTERM" ]
+	elif [ "$TERM" = "tmux-256color" ]; then
+		return 0
 	else
 		tmux display-message -p '#{client_termfeatures}'|grep -q 256
 	fi
