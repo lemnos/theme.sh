@@ -1836,6 +1836,27 @@ foreground: #aaaaaa
 background: #1e1e1e
 cursor: #aaaaaa
 
+ffive
+0: #000000
+1: #ea2639
+2: #32bf46
+3: #f8f800
+4: #356abf
+5: #b035c0
+6: #54cece
+7: #dadadb
+8: #565656
+9: #ee5463
+10: #56d369
+11: #ffff24
+12: #5b89d2
+13: #c04fcf
+14: #6dd8d8
+15: #ffffff
+foreground: #dadadb
+background: #1d1e20
+cursor: #dadadb
+
 fideloper
 0: #282f32
 1: #ca1d2c
