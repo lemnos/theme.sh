@@ -7,6 +7,9 @@
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
 # Use truecolor sequences to simulate the end result.
+
+VERSION=1.0.1
+
 preview() {
 	awk -F": " -v target="$1" '
 		BEGIN {
@@ -102,7 +105,7 @@ normalize_themes() {
 		}
 
 		function sort(a,n,    i,j,tmp,ordTbl) {
-			 for(i = 0;i < 256;i++) ordTbl[sprintf("%c", i)] = i 
+			 for(i = 0;i < 256;i++) ordTbl[sprintf("%c", i)] = i
 
 			for(i = 0;i < n;i++) {
 				tmp = a[i]
@@ -315,6 +318,9 @@ apply() {
 					out = out target
 					print out > histfile
 				}
+			} else {
+					printf "Theme not found: %s\n", target > "/dev/stderr"
+					exit(-1)
 			}
 		}
 	' < "$0"
@@ -322,7 +328,7 @@ apply() {
 
 isColorTerm() {
 	if [ -z "$TMUX" ]; then
-		[ ! -z "$COLORTERM" ]
+		[ -n "$COLORTERM" ]
 	else
 		tmux display-message -p '#{client_termfeatures}'|grep -q RGB
 	fi
@@ -383,7 +389,7 @@ list() {
 }
 
 if [ -z "$1" ]; then
-	echo "Usage: $(basename "$0") [--light] [--dark] [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] [-a|--add <kitty config>] <theme>"
+	echo "usage: $(basename "$0") [-h] <option>|<theme>"
 	exit
 fi
 
@@ -395,15 +401,43 @@ case "$1" in
 esac
 
 case "$1" in
+-h|--help)
+		cat << "!"
+usage: theme.sh [--light] | [--dark] <option> | <theme>
+
+  If <theme> is provided it will immediately be set. Otherwise --dark or 
+  --light optionally act as filters on the supplied option. Theme history
+  is stored in ~/.theme_history by default and will be used for ordering
+  the otherwise alphabetical theme list in the relevant options (-l/-i/-i2).
+
+  E.G:
+    'theme.sh --dark -i'
+
+  will start an interactive selection of dark themes with the user's
+  most recently selected themes at the bottom of the list.
+
+OPTIONS
+  -l,--list               Print all available themes to STDOUT.
+  -i,--interactive        Start the interactive selection mode (requires fzf).
+  -i2,--interactive2      Interactive mode #2.  This shows the theme immediately instead of showing it
+                          in the preview window. Useful if your terminal does have TRUECOLOR support.
+  -r,--random             Sets a random theme and prints it to STDOUT.
+  -a,--add <kitty config> Annexes the given kitty config file.
+
+SCRIPTING
+  If used from within a script, you will probably want to set
+  INHIBIT_THEME_HIST=1 to avoid mangling the user's theme history.
+!
+	;;
 -i2|--interactive2)
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	"$0" $filterFlag -l|fzf\
 		--tac\
-		--bind "enter:execute-silent($0 {})"\
+		--bind "enter:execute-silent($0 {})+accept"\
 		--bind "down:down+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
 		--bind "up:up+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
 		--bind "change:execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
-		--bind "ctrl-c:execute($0 {};echo {})+abort"\
+		--bind "ctrl-c:execute($0 -l|tail -n1|xargs $0 ;echo \"ABORTED\")+abort"\
 		--bind "esc:execute($0 {};echo {})+abort"\
 		--no-sort\
 		--preview "$0 --preview2"
@@ -416,14 +450,14 @@ case "$1" in
 -i|--interactive)
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	if ! isColorTerm; then
-		echo "This does not appear to be a truecolor terminal, try -i2 instead or set COLORTERM if your terminal has truecolor support."
-		exit 1
+		echo "ERROR: This does not appear to be a truecolor terminal, falling back to -i2" >&2
+		"$0" -i2
 	else
 		"$0" $filterFlag -l|fzf\
 			--tac\
 			--bind "ctrl-c:execute(echo {})+abort"\
 			--bind "esc:execute(echo {})+abort"\
-			--bind "enter:execute-silent($0 {})"\
+			--bind "enter:execute-silent($0 {})+accept"\
 			--no-sort\
 			--preview "$0 --preview {}"
 	fi
@@ -440,6 +474,9 @@ case "$1" in
 	;;
 --preview)
 	preview "$2"
+	;;
+-v|--version)
+	echo "$VERSION"
 	;;
 *)
 	apply "$1"
