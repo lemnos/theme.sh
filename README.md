@@ -5,8 +5,10 @@ One theme script to rule them all.
 # Features
 
  - 270+ preloaded themes.
- - Works on any terminal with OSC 4/11 support (e.g kitty, osx term)
+ - Terminal agnostic (works on any terminal with OSC 4/11 support (e.g st, kitty, iterm))
  - Small, self contained and POSIX compliant.
+ - History
+ - Script friendly
  - Interactive theme selection (requires [fzf](https://github.com/junegunn/fzf))
 
 # Demo
@@ -39,9 +41,32 @@ sudo curl -o /usr/local/bin/theme.sh 'https://raw.githubusercontent.com/lemnos/t
 # Usage
 
 
-
 ```
-Usage: theme.sh [--light] [--dark] [-l|--list] [-i|--interactive] [-i2|--interactive2] [-r|--random] [-a|--add <kitty config>] <theme>
+usage: theme.sh [--light] | [--dark] <option> | <theme>
+
+  If <theme> is provided it will immediately be set. Otherwise --dark or 
+  --light optionally act as filters on the supplied option. Theme history
+  is stored in ~/.theme_history by default and will be used for ordering
+  the otherwise alphabetical theme list in the relevant options (-l/-i/-i2).
+
+  E.G:
+    'theme.sh --dark -i'
+
+  will start an interactive selection of dark themes with the user's
+  most recently selected themes at the bottom of the list.
+
+OPTIONS
+  -l,--list               Print all available themes to STDOUT.
+  -i,--interactive        Start the interactive selection mode (requires fzf).
+  -i2,--interactive2      Interactive mode #2.  This shows the theme immediately instead of showing it
+                          in the preview window. Useful if your terminal does have TRUECOLOR support.
+  -r,--random             Sets a random theme and prints it to STDOUT.
+  -a,--add <kitty config> Annexes the given kitty config file.
+  -v,--version            Print the version and exit.
+
+SCRIPTING
+  If used from within a script, you will probably want to set
+  INHIBIT_THEME_HIST=1 to avoid mangling the user's theme history.
 ```
 
 ```
@@ -106,7 +131,11 @@ The above makes vim play nicely with the stock terminal theme.
 
 ## Adding Themes
 
-Kitty style theme configs can be ingested via `--add`. The filename is used as the theme name.
+If theme.sh is writable by the user executing it, kitty style theme configs can
+be annexed directly to the script with `--add`. This allows you to grow your 
+own self contained theme file which you can scp to all your boxen. Just don't
+forget to upstream your changes :P. See [CONTRIBUTING.md] for instructions
+on adding themes to this repo.
 
 E.G
 
@@ -158,9 +187,9 @@ Themes were contributed by numerous github contributors as well as scraped
   - https://github.com/mbadolato/iTerm2-Color-Schemes
   - https://github.com/chriskempson/base16-iterm2
 
- A debt of gratitude is owed to these projects as well as well as those
- who contributed directly to the repo, and of course the theme authors
- themselves. A non exhaustive list of theme authors can be found in [CREDITS.md](CREDITS.md)
- if you are the author of a theme and wish to be listed feel free to
- submit a PR or contact me directly :).
+ A debt of gratitude is owed to these projects as well as well as those who
+ contributed directly to the repo, and of course the theme authors themselves.
+ A non exhaustive list of theme authors can be found in [CREDITS.md] if you are
+ the author of a theme and wish to be listed feel free to submit a PR or
+ contact me directly :).
 
