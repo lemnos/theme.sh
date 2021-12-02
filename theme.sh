@@ -455,7 +455,7 @@ SCRIPTING
 	else
 		"$0" $filterFlag -l|fzf\
 			--tac\
-			--bind "ctrl-c:execute(echo {})+abort"\
+			--bind "ctrl-c:execute(echo \"ABORTED\")+abort"\
 			--bind "esc:execute(echo {})+abort"\
 			--bind "enter:execute-silent($0 {})+accept"\
 			--no-sort\
