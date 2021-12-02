@@ -437,7 +437,7 @@ SCRIPTING
 		--bind "down:down+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
 		--bind "up:up+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
 		--bind "change:execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
-		--bind "ctrl-c:execute($0 -l|tail -n1|xargs $0 ;echo \"ABORTED\")+abort"\
+		--bind "ctrl-c:execute($0 -l|tail -n1|xargs $0)+abort"\
 		--bind "esc:execute($0 {};echo {})+abort"\
 		--no-sort\
 		--preview "$0 --preview2"
@@ -455,7 +455,7 @@ SCRIPTING
 	else
 		"$0" $filterFlag -l|fzf\
 			--tac\
-			--bind "ctrl-c:execute(echo \"ABORTED\")+abort"\
+			--bind "ctrl-c:abort"\
 			--bind "esc:execute(echo {})+abort"\
 			--bind "enter:execute-silent($0 {})+accept"\
 			--no-sort\

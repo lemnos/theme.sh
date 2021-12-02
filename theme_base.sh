@@ -431,19 +431,19 @@ SCRIPTING
 	;;
 -i2|--interactive2)
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
-	"$0" "$filterFlag" -l|fzf\
+	"$0" $filterFlag -l|fzf\
 		--tac\
 		--bind "enter:execute-silent($0 {})+accept"\
 		--bind "down:down+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
 		--bind "up:up+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
 		--bind "change:execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
-		--bind "ctrl-c:execute($0 -l|tail -n1|xargs $0 ;echo \"ABORTED\")+abort"\
+		--bind "ctrl-c:execute($0 -l|tail -n1|xargs $0)+abort"\
 		--bind "esc:execute($0 {};echo {})+abort"\
 		--no-sort\
 		--preview "$0 --preview2"
 	;;
 -r|--random)
-	theme=$($0 "$filterFlag" -l|sort -R|head -n1)
+	theme=$($0 $filterFlag -l|sort -R|head -n1)
 	$0 "$theme"
 	echo "Theme: $theme"
 	;;
@@ -453,9 +453,9 @@ SCRIPTING
 		echo "ERROR: This does not appear to be a truecolor terminal, falling back to -i2" >&2
 		"$0" -i2
 	else
-		"$0" "$filterFlag" -l|fzf\
+		"$0" $filterFlag -l|fzf\
 			--tac\
-			--bind "ctrl-c:execute(echo {})+abort"\
+			--bind "ctrl-c:abort"\
 			--bind "esc:execute(echo {})+abort"\
 			--bind "enter:execute-silent($0 {})+accept"\
 			--no-sort\
