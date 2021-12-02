@@ -134,7 +134,7 @@ The above makes vim play nicely with the stock terminal theme.
 If theme.sh is writable by the user executing it, kitty style theme configs can
 be annexed directly to the script with `--add`. This allows you to grow your 
 own self contained theme file which you can scp to all your boxen. Just don't
-forget to upstream your changes :P. See [CONTRIBUTING.md] for instructions
+forget to upstream your changes :P. See [CONTRIBUTING.md]() for instructions
 on adding themes to this repo.
 
 E.G
@@ -149,7 +149,7 @@ If a theme with the same name already exists it will be overwritten.
 
 Note that adding themes requires write access to the script and may require `sudo` for system-wide installations.
 
-If you find a theme that is already not included in the script you are encouraged to submit a PR (see CONTRIBUTING.md).
+If you find a theme that is already not included in the script you are encouraged to submit a PR (see [CONTRIBUTING.md]()).
 
 # Supported Terminals
 
@@ -189,7 +189,7 @@ Themes were contributed by numerous github contributors as well as scraped
 
  A debt of gratitude is owed to these projects as well as well as those who
  contributed directly to the repo, and of course the theme authors themselves.
- A non exhaustive list of theme authors can be found in [CREDITS.md] if you are
+ A non exhaustive list of theme authors can be found in [CREDITS.md]() if you are
  the author of a theme and wish to be listed feel free to submit a PR or
  contact me directly :).
 
