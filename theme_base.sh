@@ -389,7 +389,7 @@ list() {
 }
 
 if [ -z "$1" ]; then
-	echo "usage: $(basename "$0") [-h] <option>|<theme>"
+	echo "usage: $(basename "$0") [-v] [-h] <option>|<theme>"
 	exit
 fi
 
@@ -423,6 +423,7 @@ OPTIONS
                           in the preview window. Useful if your terminal does have TRUECOLOR support.
   -r,--random             Sets a random theme and prints it to STDOUT.
   -a,--add <kitty config> Annexes the given kitty config file.
+  -v,--version            Print the version and exit.
 
 SCRIPTING
   If used from within a script, you will probably want to set
