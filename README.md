@@ -151,7 +151,7 @@ Below is a list of terminals on which theme.sh is known to work:
 
 # Acknowledgements
 
- - Themes were contributed by numerous github contributors as well as scraped
+Themes were contributed by numerous github contributors as well as scraped
  from various projects. Some of the larger respositories include:
 
   - https://github.com/dexpota/kitty-themes
