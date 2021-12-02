@@ -8,7 +8,7 @@
 
 # Use truecolor sequences to simulate the end result.
 
-VERSION=v1.0.1
+VERSION=v1.0.2
 
 preview() {
 	awk -F": " -v target="$1" '
@@ -452,7 +452,7 @@ SCRIPTING
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	if ! isColorTerm; then
 		echo "ERROR: This does not appear to be a truecolor terminal, falling back to -i2" >&2
-		"$0" -i2
+		"$0" $filterFlag -i2
 	else
 		"$0" $filterFlag -l|fzf\
 			--tac\
