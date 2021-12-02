@@ -450,7 +450,8 @@ SCRIPTING
 -i|--interactive)
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	if ! isColorTerm; then
-		echo "ERROR: This does not appear to be a truecolor terminal, falling back to -i2" >&2
+		printf "WARNING: This does not appear to be a truecolor terminal, falling back to -i2 
+         (use this explicitly to get rid of this message or set COLORTERM)\n\n" >&2
 		"$0" $filterFlag -i2
 	else
 		"$0" $filterFlag -l|fzf\
