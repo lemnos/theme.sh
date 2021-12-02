@@ -160,7 +160,7 @@ Themes were contributed by numerous github contributors as well as scraped
 
  A debt of gratitude is owed to these projects as well as well as those
  who contributed directly to the repo, and of course the theme authors
- themselves. A non exhaustive list of theme authors can be found in CREDITS.md
+ themselves. A non exhaustive list of theme authors can be found in [CREDITS.md](CREDITS.md)
  if you are the author of a theme and wish to be listed feel free to
  submit a PR or contact me directly :).
 
