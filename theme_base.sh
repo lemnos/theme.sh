@@ -8,7 +8,7 @@
 
 # Use truecolor sequences to simulate the end result.
 
-VERSION=1.0.2
+VERSION=v1.0.3
 
 preview() {
 	awk -F": " -v target="$1" '
@@ -213,6 +213,8 @@ add() {
 }
 
 preview2() {
+	INHIBIT_THEME_HIST=1 "$0" "$1"
+
 	printf '\033[30mColor 0\n'
 	printf '\033[31mColor 1\n'
 	printf '\033[32mColor 2\n'
@@ -435,13 +437,10 @@ SCRIPTING
 	"$0" $filterFlag -l|fzf\
 		--tac\
 		--bind "enter:execute-silent($0 {})+accept"\
-		--bind "down:down+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
-		--bind "up:up+execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
-		--bind "change:execute-silent(INHIBIT_THEME_HIST=1 $0 {})"\
 		--bind "ctrl-c:execute($0 -l|tail -n1|xargs $0)+abort"\
 		--bind "esc:execute($0 {};echo {})+abort"\
 		--no-sort\
-		--preview "$0 --preview2"
+		--preview "$0 --preview2 {}"
 	;;
 -r|--random)
 	theme=$($0 $filterFlag -l|sort -R|head -n1)
@@ -477,7 +476,7 @@ SCRIPTING
 	preview "$2"
 	;;
 -v|--version)
-	echo "$VERSION"
+	echo "$VERSION (original source https://github.com/lemnos/theme.sh/)"
 	;;
 *)
 	apply "$1"

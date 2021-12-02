@@ -8,7 +8,7 @@
 
 # Use truecolor sequences to simulate the end result.
 
-VERSION=1.0.3
+VERSION=v1.0.3
 
 preview() {
 	awk -F": " -v target="$1" '
@@ -213,7 +213,7 @@ add() {
 }
 
 preview2() {
-    INHIBIT_THEME_HIST=1 "$0" "$1"
+	INHIBIT_THEME_HIST=1 "$0" "$1"
 
 	printf '\033[30mColor 0\n'
 	printf '\033[31mColor 1\n'
@@ -476,7 +476,7 @@ SCRIPTING
 	preview "$2"
 	;;
 -v|--version)
-	echo "$VERSION"
+	echo "$VERSION (original source https://github.com/lemnos/theme.sh/)"
 	;;
 *)
 	apply "$1"
