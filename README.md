@@ -29,13 +29,13 @@ Simply put `theme.sh` somewhere in your path.
 E.G
 
 ```
-sudo curl -o /usr/bin/theme.sh 'https://git.io/JM6CO' && sudo chmod +x /usr/bin/theme.sh
+sudo curl -Lo /usr/bin/theme.sh 'https://git.io/JM6CO' && sudo chmod +x /usr/bin/theme.sh
 ```
 
 or (OSX)
 
 ```
-sudo curl -o /usr/local/bin/theme.sh 'https://git.io/JM6CO' && sudo chmod +x /usr/local/bin/theme.sh
+sudo curl -Lo /usr/local/bin/theme.sh 'https://git.io/JM6CO' && sudo chmod +x /usr/local/bin/theme.sh
 ```
 
 # Usage
