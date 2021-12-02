@@ -8,7 +8,7 @@
 
 # Use truecolor sequences to simulate the end result.
 
-VERSION=1.0.1
+VERSION=v1.0.1
 
 preview() {
 	awk -F": " -v target="$1" '
@@ -477,7 +477,7 @@ SCRIPTING
 	preview "$2"
 	;;
 -v|--version)
-	echo "$VERSION"
+	echo "$VERSION (original source https://github.com/lemnos/theme.sh)"
 	;;
 *)
 	apply "$1"
