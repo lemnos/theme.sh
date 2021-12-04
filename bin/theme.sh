@@ -6,7 +6,7 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-VERSION=v1.0.3
+VERSION=v1.0.4
 
 # Use truecolor sequences to simulate the end result.
 
@@ -3132,6 +3132,27 @@ idle-toes
 foreground: #ffffff
 background: #323232
 cursor: #ffffff
+
+idm_3b
+0: #1a1a1a
+1: #b04060
+2: #70d0a0
+3: #ffb060
+4: #408aca
+5: #ba5aba
+6: #a070e0
+7: #606060
+8: #b0b0b0
+9: #d06080
+10: #aaf0d0
+11: #ffda90
+12: #80baf0
+13: #ffb0d0
+14: #caa0f0
+15: #e0e0e0
+foreground: #ffcada
+background: #200a28
+cursor: #ffa0a0
 
 ir-black
 0: #4e4e4e
