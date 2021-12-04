@@ -6,9 +6,9 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-# Use truecolor sequences to simulate the end result.
-
 VERSION=v1.0.3
+
+# Use truecolor sequences to simulate the end result.
 
 preview() {
 	awk -F": " -v target="$1" '
@@ -243,70 +243,74 @@ preview2() {
 	printf '\033[0m'
 }
 
-apply() {
-	awk -F": " -v target="$1" '
-		function tmuxesc(s) { return sprintf("\033Ptmux;\033%s\033\\", s) }
-		function normalize_term() {
-			# Term detection voodoo
+# Consumes a theme.sh definition from STDIN and applies it.
 
-			if(ENVIRON["TERM_PROGRAM"] == "iTerm.app")
+apply_theme() {
+awk '
+	function tmuxesc(s) { return sprintf("\033Ptmux;\033%s\033\\", s) }
+	function normalize_term() {
+		# Term detection voodoo
+
+		if(ENVIRON["TERM_PROGRAM"] == "iTerm.app")
+			term="iterm"
+		else if(ENVIRON["TMUX"]) {
+			"tmux display-message -p \"#{client_termname}\"" | getline term
+			"tmux display-message -p \"#{client_termtype}\"" | getline termname
+
+			if(substr(termname, 1, 5) == "iTerm")
 				term="iterm"
-			else if(ENVIRON["TMUX"]) {
-				"tmux display-message -p \"#{client_termname}\"" | getline term
-				"tmux display-message -p \"#{client_termtype}\"" | getline termname
+			is_tmux++
+		} else
+			term=ENVIRON["TERM"]
+	}
 
-				if(substr(termname, 1, 5) == "iTerm")
-					term="iterm"
-				is_tmux++
-			} else
-				term=ENVIRON["TERM"]
+	BEGIN {
+		normalize_term()
+
+		if(term == "iterm") {
+			bgesc="\033]Ph%s\033\\"
+			fgesc="\033]Pg%s\033\\"
+			colesc="\033]P%x%s\033\\"
+			curesc="\033]Pl%s\033\\"
+		} else {
+			#Terms that play nice :)
+
+			fgesc="\033]10;#%s\007"
+			bgesc="\033]11;#%s\007"
+			curesc="\033]12;#%s\007"
+			colesc="\033]4;%d;#%s\007"
 		}
 
-		BEGIN {
-			normalize_term()
-
-			if(term == "iterm") {
-				bgesc="\033]Ph%s\033\\"
-				fgesc="\033]Pg%s\033\\"
-				colesc="\033]P%x%s\033\\"
-				curesc="\033]Pl%s\033\\"
-			} else {
-				#Terms that play nice :)
-
-				fgesc="\033]10;#%s\007"
-				bgesc="\033]11;#%s\007"
-				curesc="\033]12;#%s\007"
-				colesc="\033]4;%d;#%s\007"
-			}
-
-			if(is_tmux) {
-				fgesc=tmuxesc(fgesc)
-				bgesc=tmuxesc(bgesc)
-				curesc=tmuxesc(curesc)
-				colesc=tmuxesc(colesc)
-			}
+		if(is_tmux) {
+			fgesc=tmuxesc(fgesc)
+			bgesc=tmuxesc(bgesc)
+			curesc=tmuxesc(curesc)
+			colesc=tmuxesc(colesc)
 		}
+	}
 
+	/^foreground:/ { printf fgesc, substr($2, 2) > "/dev/tty" }
+	/^background:/ { printf bgesc, substr($2, 2) > "/dev/tty" }
+	/^cursor:/ { printf curesc, substr($2, 2) > "/dev/tty" }
+	/^[0-9]+:/ { printf colesc, $1, substr($2, 2) > "/dev/tty" }
+'
+}
+
+# Sets the current theme given a name and does the requisite bookkeeping.
+
+set_current_theme() {
+	awk -F": " -v target="$1" -v script="$0" '
 		/^# Themes/ { start++;next; }
 		!start { next }
 
-		$0 == target {found++}
+		$0 == target { found++;next; }
 
-		found && /^foreground:/ {fg=$2}
-		found && /^background:/ {bg=$2}
-		found && /^[0-9]+:/ {colors[int($1)]=$2}
-		found && /^cursor:/ {cursor=$2}
-
+		found { theme = theme $0 "\n" }
 		found && /^ *$/ { exit }
 
 		END {
 			if(found) {
-				for(c in colors)
-					printf colesc, c, substr(colors[c], 2) > "/dev/tty"
-
-				printf fgesc, substr(fg, 2) > "/dev/tty"
-				printf bgesc, substr(bg, 2) > "/dev/tty"
-				printf curesc, substr(cursor, 2) > "/dev/tty"
+				printf "%s", theme | script
 
 				histfile=ENVIRON["HOME"]"/.theme_history"
 				inhibit_hist=ENVIRON["INHIBIT_THEME_HIST"]
@@ -390,8 +394,13 @@ list() {
 	' < "$0"
 }
 
+
 if [ -z "$1" ]; then
-	echo "usage: $(basename "$0") [-v] [-h] <option>|<theme>"
+	if [ -t 0 ]; then
+		echo "usage: $(basename "$0") [-v] [-h] <option>|<theme>"
+	else
+		apply_theme
+	fi
 	exit
 fi
 
@@ -451,7 +460,7 @@ SCRIPTING
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	if ! isColorTerm; then
 		printf "WARNING: This does not appear to be a truecolor terminal, falling back to -i2 
-         (use this explicitly to get rid of this message or set COLORTERM)\n\n" >&2
+         (use -i2 explicitly to get rid of this message or set COLORTERM)\n\n" >&2
 		"$0" $filterFlag -i2
 	else
 		"$0" $filterFlag -l|fzf\
@@ -480,7 +489,7 @@ SCRIPTING
 	echo "$VERSION (original source https://github.com/lemnos/theme.sh/)"
 	;;
 *)
-	apply "$1"
+	set_current_theme "$1"
 	;;
 esac
 
