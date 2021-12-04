@@ -1,4 +1,5 @@
 all:
-	cp theme_base.sh theme.sh
-	chmod +x theme.sh
-	./theme.sh -a themes/*
+	-mkdir -p bin 
+	cp src/theme.sh bin/theme.sh
+	chmod +x bin/theme.sh
+	./bin/theme.sh -a themes/*
