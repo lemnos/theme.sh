@@ -6,7 +6,7 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-VERSION=v1.0.3
+VERSION=v1.0.4
 
 # Use truecolor sequences to simulate the end result.
 
@@ -332,6 +332,77 @@ set_current_theme() {
 	' < "$0"
 }
 
+# Dump the current theme in a format consumable by theme.sh
+# by attempting to read it from the terminal.
+#
+# NOTE: Many terms don't support this properly (e.g alacritty)
+
+# Refs
+
+# https://github.com/microsoft/terminal/issues/3718
+# https://github.com/alacritty/alacritty/blob/master/alacritty_terminal/src/ansi.rs#L972
+
+print_current_theme() {
+	awk '
+		function read() {
+			# Read until we encounter the CSI response, indicates end of
+			# stream (assumes fifo request-response output)
+
+			while((end=index(buf, "[")) == 0) {
+				cmd=sprintf("dd if=/dev/tty ibs=1024 count=1 2> /dev/null", maxchars)
+				cmd|getline c
+				buf = buf c
+			}
+
+			return substr(buf, 1, end)
+		}
+
+		function parse_seq(s) {
+			if(match(s, /rgb:/)) {
+				key = substr(s, 1, RSTART-1)
+
+				r=substr(s, RSTART+4, 2)
+				g=substr(s, RSTART+9, 2)
+				b=substr(s, RSTART+14, 2)
+
+				colors[key] = "#" r g b
+			}
+		}
+
+		BEGIN {
+			system("stty raw -echo")
+
+			printf "\033]10;?\007" > "/dev/tty"
+			printf "\033]11;?\007" > "/dev/tty"
+			printf "\033]12;?\007" > "/dev/tty"
+
+			for(i=0;i<16;i++)
+				printf "\033]4;%d;?\007",i > "/dev/tty"
+
+			# Terminating CSI sequence, should be supported on all
+			# terminals. Ensures we do not block forever waiting for
+			# input on unsupported terms.
+
+			printf "\033[c" > "/dev/tty"
+
+			buf = read()
+
+			system("stty -raw echo")
+
+			split(buf, responses, "]")
+			for(i in responses)
+				parse_seq(responses[i])
+
+			for(i=0;i<16;i++)
+				printf "%d: %s\n", i, colors[sprintf("4;%d;", i)]
+
+			printf "foreground: %s\n", colors["10;"]
+			printf "background: %s\n", colors["11;"]
+			printf "cursor: %s\n", colors["12;"]
+		}
+	'
+}
+
 isColorTerm() {
 	if [ -z "$TMUX" ]; then
 		[ -n "$COLORTERM" ]
@@ -398,10 +469,11 @@ list() {
 if [ -z "$1" ]; then
 	if [ -t 0 ]; then
 		echo "usage: $(basename "$0") [-v] [-h] <option>|<theme>"
+		exit -1
 	else
 		apply_theme
+		exit 0
 	fi
-	exit
 fi
 
 case "$1" in
@@ -416,7 +488,7 @@ case "$1" in
 		cat << "!"
 usage: theme.sh [--light] | [--dark] <option> | <theme>
 
-  If <theme> is provided it will immediately be set. Otherwise --dark or 
+  If <theme> is provided it will immediately be set. Otherwise --dark or
   --light optionally act as filters on the supplied option. Theme history
   is stored in ~/.theme_history by default and will be used for ordering
   the otherwise alphabetical theme list in the relevant options (-l/-i/-i2).
@@ -425,21 +497,44 @@ usage: theme.sh [--light] | [--dark] <option> | <theme>
     'theme.sh --dark -i'
 
   will start an interactive selection of dark themes with the user's
-  most recently selected themes at the bottom of the list.
+  most recently selected themes at the bottom of the list. Theme
+  definitions consistent with the internal format can also be
+  piped directly into the script.
+
+  E.G:
+
+  # theme.sh < input
+
+  Where input has the form:
+
+      0: #4d4d4d
+      1: #4d4d4d
+      ...
+      foreground: #dcdccc
+      background: #3f3f3f
+      cursor: #dcdccc
 
 OPTIONS
-  -l,--list               Print all available themes to STDOUT.
-  -i,--interactive        Start the interactive selection mode (requires fzf).
-  -i2,--interactive2      Interactive mode #2.  This shows the theme immediately instead of showing it
-                          in the preview window. Useful if your terminal does have TRUECOLOR support.
-  -r,--random             Sets a random theme and prints it to STDOUT.
-  -a,--add <kitty config> Annexes the given kitty config file.
-  -v,--version            Print the version and exit.
+  -l,--list                 Print all available themes.
+  -i,--interactive          Start the interactive selection mode (requires fzf).
+  -i2,--interactive2        Interactive mode #2. This shows the theme immediately 
+                            instead of showing it in the preview window. Useful 
+			    if your terminal does have TRUECOLOR support.
+  -r,--random               Set a random theme and print its name to stdout.
+  -a,--add <kitty config>   Annexes the given kitty config file.
+  -p,--print-theme          Attempt to read the current theme from the terminal 
+                            and print it to stdout in a format consumable by theme.sh. 
+                            NOTE: not all terminals support this option, 
+		            do not rely on it in scripts.
+  -v,--version              Print the version and exit.
 
 SCRIPTING
   If used from within a script, you will probably want to set
   INHIBIT_THEME_HIST=1 to avoid mangling the user's theme history.
 !
+	;;
+-p|--print-theme)
+	print_current_theme
 	;;
 -i2|--interactive2)
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
@@ -459,7 +554,7 @@ SCRIPTING
 -i|--interactive)
 	command -v fzf > /dev/null 2>&1 || { echo "ERROR: -i requires fzf" >&2; exit 1; }
 	if ! isColorTerm; then
-		printf "WARNING: This does not appear to be a truecolor terminal, falling back to -i2 
+		printf "WARNING: This does not appear to be a truecolor terminal, falling back to -i2
          (use -i2 explicitly to get rid of this message or set COLORTERM)\n\n" >&2
 		"$0" $filterFlag -i2
 	else
