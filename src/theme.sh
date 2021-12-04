@@ -581,7 +581,7 @@ SCRIPTING
 	preview "$2"
 	;;
 -v|--version)
-	echo "$VERSION (original source https://github.com/lemnos/theme.sh/)"
+	echo "$VERSION (original source https://github.com/lemnos/theme.sh)"
 	;;
 *)
 	set_current_theme "$1"
