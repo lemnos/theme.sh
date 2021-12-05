@@ -6,7 +6,7 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-VERSION=v1.0.4
+VERSION=v1.0.5
 
 # Use truecolor sequences to simulate the end result.
 
@@ -344,6 +344,13 @@ set_current_theme() {
 
 print_current_theme() {
 	awk '
+		function escape(s) {
+			if(ENVIRON["TMUX"])
+				return sprintf("\033Ptmux;\033%s\033\\", s)
+			else
+				return s
+		}
+
 		function read() {
 			# Read until we encounter the CSI response, indicates end of
 			# stream (assumes fifo request-response output)
@@ -372,18 +379,18 @@ print_current_theme() {
 		BEGIN {
 			system("stty raw -echo")
 
-			printf "\033]10;?\007" > "/dev/tty"
-			printf "\033]11;?\007" > "/dev/tty"
-			printf "\033]12;?\007" > "/dev/tty"
-
 			for(i=0;i<16;i++)
-				printf "\033]4;%d;?\007",i > "/dev/tty"
+				printf escape(sprintf("\033]4;%d;?\007", i)) > "/dev/tty"
+
+			printf escape("\033]10;?\007") > "/dev/tty"
+			printf escape("\033]11;?\007") > "/dev/tty"
+			printf escape("\033]12;?\007") > "/dev/tty"
 
 			# Terminating CSI sequence, should be supported on all
 			# terminals. Ensures we do not block forever waiting for
 			# input on unsupported terms.
 
-			printf "\033[c" > "/dev/tty"
+			printf escape("\033[c") > "/dev/tty"
 
 			buf = read()
 
@@ -517,14 +524,14 @@ usage: theme.sh [--light] | [--dark] <option> | <theme>
 OPTIONS
   -l,--list                 Print all available themes.
   -i,--interactive          Start the interactive selection mode (requires fzf).
-  -i2,--interactive2        Interactive mode #2. This shows the theme immediately 
-                            instead of showing it in the preview window. Useful 
+  -i2,--interactive2        Interactive mode #2. This shows the theme immediately
+                            instead of showing it in the preview window. Useful
 			    if your terminal does have TRUECOLOR support.
   -r,--random               Set a random theme and print its name to stdout.
   -a,--add <kitty config>   Annexes the given kitty config file.
-  -p,--print-theme          Attempt to read the current theme from the terminal 
-                            and print it to stdout in a format consumable by theme.sh. 
-                            NOTE: not all terminals support this option, 
+  -p,--print-theme          Attempt to read the current theme from the terminal
+                            and print it to stdout in a format consumable by theme.sh.
+                            NOTE: not all terminals support this option,
 		            do not rely on it in scripts.
   -v,--version              Print the version and exit.
 
