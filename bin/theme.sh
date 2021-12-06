@@ -6,7 +6,7 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-VERSION=v1.0.7
+VERSION=v1.0.8
 
 # Use truecolor sequences to simulate the end result.
 
@@ -2273,6 +2273,111 @@ github
 foreground: #3e3e3e
 background: #f4f4f4
 cursor: #3e3e3e
+
+github-dark
+0: #24292e
+1: #f14c4c
+2: #23d18b
+3: #e2e210
+4: #3b8eea
+5: #bc3fbc
+6: #29b7da
+7: #666666
+8: #666666
+9: #f14c4c
+10: #23d18b
+11: #f5f543
+12: #3b8eea
+13: #d670d6
+14: #29b8db
+15: #d1d5da
+foreground: #d1d5da
+background: #24292e
+cursor: #c8e1ff
+
+github-dark-default
+0: #484f58
+1: #ff7b72
+2: #3fb950
+3: #d29922
+4: #58a6ff
+5: #bc8cff
+6: #39c5cf
+7: #4d5566
+8: #4d5566
+9: #ffa198
+10: #56d364
+11: #e3b341
+12: #79c0ff
+13: #d2a8ff
+14: #56d4dd
+15: #b3b1ad
+foreground: #b3b1ad
+background: #0d1117
+cursor: #73b7f2
+
+github-dimmed
+0: #22272e
+1: #ff938a
+2: #6bc46d
+3: #c69026
+4: #6cb6ff
+5: #b083f0
+6: #56d4dd
+7: #636e7b
+8: #636e7b
+9: #ff938a
+10: #6bc46d
+11: #daaa3f
+12: #6cb6ff
+13: #dcbdfb
+14: #56d4dd
+15: #768390
+foreground: #768390
+background: #22272e
+cursor: #6cb6ff
+
+github-light
+0: #697179
+1: #d03d3d
+2: #14ce14
+3: #949800
+4: #0451a5
+5: #bc05bc
+6: #0598bc
+7: #666666
+8: #666666
+9: #cd3131
+10: #14ce14
+11: #b5ba00
+12: #0451a5
+13: #bc05bc
+14: #0598bc
+15: #586069
+foreground: #586069
+background: #ffffff
+cursor: #044289
+
+github-light-default
+0: #24292e
+1: #d73a49
+2: #22863a
+3: #b08800
+4: #0366d6
+5: #6f42c1
+6: #1b7c83
+7: #424242
+8: #424242
+9: #cb2431
+10: #28a745
+11: #dbab09
+12: #2188ff
+13: #8a63d2
+14: #3192aa
+15: #4d5566
+foreground: #4d5566
+background: #ffffff
+cursor: #044289
 
 glacier
 0: #2e343c

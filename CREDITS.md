@@ -117,3 +117,4 @@ If you don't see an attribution here feel free to request one or submit a PR.
 - paraiso-dark - [idleberg](https://github.com/idleberg)
 - floraverse - [papayakitty](http://floraverse.com/)
 - mar - [memije](https://github.com/memije)
+- github-* [projekt0n](https://github.com/projekt0n/github-nvim-theme)
