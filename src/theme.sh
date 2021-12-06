@@ -492,7 +492,7 @@ list() {
 if [ -z "$1" ]; then
 	if [ -t 0 ]; then
 		echo "usage: $(basename "$0") [-v] [-h] <option>|<theme>"
-		exit -1
+		exit 255
 	else
 		apply_theme
 		exit 0
