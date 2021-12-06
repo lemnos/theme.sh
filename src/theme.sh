@@ -409,8 +409,11 @@ print_current_theme() {
 
 		# Use a CSI DA1 sequence (supported by all terms) 
 		# as a sentinel value to indicate end-of-response.
-		# (assumes fifo request-response order)
 
+		# NOTE: This fails if the request-response order is not FIFO or
+		# there are interleaved CSI responses. This is rare, but
+		# notably happens under tmux in the case of multiple attached
+		# terminals.
 		printf escape_maybe("\033[c") > "/dev/tty"
 
 		print_response(read_response())
