@@ -346,13 +346,6 @@ print_current_theme() {
 	awk '
 	# Yo dawg, I heard you like multiplexers...
 
-	function escape_maybe(s) {
-		if (ENVIRON["TMUX"])
-			return sprintf("\033Ptmux;\033%s\033\\", s)
-		else
-			return s
-	}
-
 	function print_response(s) {
 		names["10;"] = "foreground"
 		names["11;"] = "background"
@@ -398,20 +391,33 @@ print_current_theme() {
 	BEGIN {
 		system("stty cbreak -echo")
 
+		tty = "/dev/tty"
+		if (ENVIRON["TMUX"]) {
+			# If we are running inside tmux we sent the request sequences
+			# to the currently attached terminal. Note that we still 
+			# read the result from the virtual terminal.
+
+			# Flow:
+			# theme.sh (request) -> tty -> pts (response) -> theme.sh
+			# where pts is the tmux pseudoterminal.
+
+			"tmux display-message -p \"#{client_tty}\""|getline tty
+		}
+
 		# Terminals may ignore these.
 
 		for(i=0;i<16;i++)
-			printf escape_maybe(sprintf("\033]4;%d;?\007", i)) > "/dev/tty"
+			printf "\033]4;%d;?\007", i > tty
 
-		printf escape_maybe("\033]10;?\007") > "/dev/tty"
-		printf escape_maybe("\033]11;?\007") > "/dev/tty"
-		printf escape_maybe("\033]12;?\007") > "/dev/tty"
+		printf "\033]10;?\007" > tty
+		printf "\033]11;?\007" > tty
+		printf "\033]12;?\007" > tty
 
 		# Use a CSI DA1 sequence (supported by all terms) 
 		# as a sentinel value to indicate end-of-response.
-		# (assumes fifo request-response order)
+		# (assumes request-response order is fifo)
 
-		printf escape_maybe("\033[c") > "/dev/tty"
+		printf "\033[c" > tty
 
 		print_response(read_response())
 
