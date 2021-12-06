@@ -159,37 +159,45 @@ highlight Search ctermfg=0
 
 The above makes vim play nicely with the stock terminal theme.
 
+# Scripting Examples
+
 ## Example root themeing logic
 
-The following snippet will cause the theme to change color upon login (e.g
-su) when placed in the root user's shellrc (e.g /root/.bashrc)
+The following shellrc snippet will cause the theme to change color when either
+su is used or sudo is run with a long running (> .2s) command.
 
 ```
-theme_cleanup() {
-        [ -n "$old_theme" ] && echo "$old_theme"|theme.sh
+su() {
+		(
+				old_theme=$(theme.sh -p < /dev/tty);
+				trap 'echo "$old_theme"|theme.sh' EXIT
+				env su "$@"
+		)
 }
 
-theme_setup() {
-        old_theme="$(theme.sh -p)"
+sudo() {
+		(
+				pid=$(exec sh -c 'echo "$PPID"')
+				old_theme=$(theme.sh -p < /dev/tty);
+				trap 'echo "$old_theme"|theme.sh' EXIT
 
-        # If we are using a terminal which reports anything less
-        # than the full 19 colors, then we can't restore the
-        # original theme.
-        if [ "$(echo "$old_theme"|wc -l)" != 19 ]; then
-                echo "WARNING: You are running as root. The terminal does not support theme querying."
-                old_theme=""
-        else
-                theme.sh red-alert
-        fi
+				# If the command takes less than .2s, don't change the theme.
+				# We could also just match on 'su' and ignore everything else,
+				# but this also accomodates other long running commands
+				# like 'sudo sleep 5s'. Modify to taste.
 
+				( 
+						sleep .2s
+						ps -p "$pid" > /dev/null && INHIBIT_THEME_HIST=1 theme.sh red-alert
+				) &
 
-        trap theme_cleanup 0
+				env sudo "$@"
+		)
 }
 
-theme_setup
 ```
 
-## Example SSH Integration
+## SSH Integration
 
 Put the snippet in your shellrc:
 
