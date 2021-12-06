@@ -191,6 +191,18 @@ theme_setup
 
 ## Example SSH Integration
 
+Put the snippet in your shellrc:
+
+and then
+
+`~/.ssh_themes`:
+
+```
+host1: zenburn
+host2: red-alert
+...
+```
+
 ```
 ssh() {
 	# A tiny ssh wrapper which extracts a theme from ~/.ssh_themes
@@ -223,9 +235,6 @@ ssh() {
 
 You could also do something on the server side using `-p` for restoration, but it is less widely
 supported and you risk mangling client side config.
-
-```
-
 
 ## Adding Themes
 
