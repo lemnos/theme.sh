@@ -6,7 +6,7 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-VERSION=v1.0.8
+VERSION=v1.1.0
 
 # Use truecolor sequences to simulate the end result.
 
@@ -566,6 +566,7 @@ SCRIPTING
 		--bind "enter:execute-silent($0 {})+accept"\
 		--bind "ctrl-c:execute($0 -l|tail -n1|xargs $0)+abort"\
 		--bind "esc:execute($0 {};echo {})+abort"\
+		--no-extended\
 		--no-sort\
 		--preview "$0 --preview2 {}"
 	;;
@@ -583,6 +584,7 @@ SCRIPTING
 	else
 		"$0" $filterFlag -l|fzf\
 			--tac\
+			--no-extended\
 			--bind "ctrl-c:abort"\
 			--bind "esc:execute(echo {})+abort"\
 			--bind "enter:execute-silent($0 {})+accept"\
