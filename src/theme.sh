@@ -344,8 +344,6 @@ set_current_theme() {
 
 print_current_theme() {
 	awk '
-	# Yo dawg, I heard you like multiplexers...
-
 	function print_response(s) {
 		names["10;"] = "foreground"
 		names["11;"] = "background"
@@ -392,13 +390,15 @@ print_current_theme() {
 		system("stty cbreak -echo")
 
 		tty = "/dev/tty"
+
+		# Yo dawg, I heard you like multiplexers...
 		if (ENVIRON["TMUX"]) {
 			# If we are running inside tmux we sent the request sequences
 			# to the currently attached terminal. Note that we still 
 			# read the result from the virtual terminal.
 
 			# Flow:
-			# theme.sh (request) -> tty -> pts (response) -> theme.sh
+			# theme.sh (request) -> tty (response) -> pts (response) -> theme.sh
 			# where pts is the tmux pseudoterminal.
 
 			"tmux display-message -p \"#{client_tty}\""|getline tty
@@ -520,9 +520,10 @@ usage: theme.sh [--light] | [--dark] <option> | <theme>
     'theme.sh --dark -i'
 
   will start an interactive selection of dark themes with the user's
-  most recently selected themes at the bottom of the list. Theme
-  definitions consistent with the internal format can also be
-  piped directly into the script.
+  most recently selected themes at the bottom of the list. 
+
+  Theme definitions consistent with the internal format can also be piped
+  directly into the script.
 
   E.G:
 

@@ -44,7 +44,7 @@ sudo curl -Lo /usr/local/bin/theme.sh 'https://git.io/JM70M' && sudo chmod +x /u
 ```
 usage: theme.sh [--light] | [--dark] <option> | <theme>
 
-  If <theme> is provided it will immediately be set. Otherwise --dark or 
+  If <theme> is provided it will immediately be set. Otherwise --dark or
   --light optionally act as filters on the supplied option. Theme history
   is stored in ~/.theme_history by default and will be used for ordering
   the otherwise alphabetical theme list in the relevant options (-l/-i/-i2).
@@ -73,7 +73,7 @@ SCRIPTING
 
 ```
 > theme.sh -l
-  
+
   zenburn
   gruvbox
   solarized-dark
@@ -106,7 +106,7 @@ To load the most recently selected theme automatically you can put
 if command -v theme.sh > /dev/null; then
 	[ -e ~/.theme_history ] && theme.sh "$(theme.sh -l|tail -n1)"
 
-	# Optional  
+	# Optional
 
 	#Binds C-o to the previously active theme.
 	bind -x '"\x0f":"theme.sh $(theme.sh -l|tail -n2|head -n1)"'
@@ -128,10 +128,10 @@ in your `~/.bashrc`.
 if command -v theme.sh > /dev/null; then
 	[ -e ~/.theme_history ] && theme.sh "$(theme.sh -l|tail -n1)"
 
-	# Optional  
+	# Optional
 
 	# Bind C-o to the last theme.
-	last_theme() { 
+	last_theme() {
 		theme.sh "$(theme.sh -l|tail -n2|head -n1)"
 	}
 
@@ -159,10 +159,78 @@ highlight Search ctermfg=0
 
 The above makes vim play nicely with the stock terminal theme.
 
+## Example root themeing logic
+
+The following snippet will cause the theme to change color upon login (e.g
+su) when placed in the root user's shellrc (e.g /root/.bashrc)
+
+```
+theme_cleanup() {
+        [ -n "$old_theme" ] && echo "$old_theme"|theme.sh
+}
+
+theme_setup() {
+        old_theme="$(theme.sh -p)"
+
+        # If we are using a terminal which reports anything less
+        # than the full 19 colors, then we can't restore the
+        # original theme.
+        if [ "$(echo "$old_theme"|wc -l)" != 19 ]; then
+                echo "WARNING: You are running as root. The terminal does not support theme querying."
+                old_theme=""
+        else
+                theme.sh red-alert
+        fi
+
+
+        trap theme_cleanup 0
+}
+
+theme_setup
+```
+
+## Example SSH Integration
+
+```
+ssh() {
+	# A tiny ssh wrapper which extracts a theme from ~/.ssh_themes
+	# and applies it for the duration of the current ssh command.
+	# Each line in ~/.ssh_themes has the format:
+	#     <hostname>: <theme>.
+
+	# Restoration relies on the fact that you are using theme.sh to manage
+	# the current theme.  (that is, you set the theme in your bashrc.)
+
+	# This can probably be made more robust. It is just a small demo
+	# of what is possible.
+
+
+	touch ~/.ssh_themes
+
+	host="$(echo "$@"|awk '{gsub(".*@","",$NF);print $NF}')"
+	theme="$(awk -vhost="$host" -F': *' 'index($0, host":") == 1 {print $2}' < ~/.ssh_themes)"
+
+	if [ -z "$theme" ]; then
+		env ssh "$@"
+		return
+	fi
+
+	INHIBIT_THEME_HIST=1 theme.sh "$theme"
+	env ssh "$@"
+	theme.sh "$(theme.sh -l|tail -n1)"
+}
+```
+
+You could also do something on the server side using `-p` for restoration, but it is less widely
+supported and you risk mangling client side config.
+
+```
+
+
 ## Adding Themes
 
 If theme.sh is writable by the user executing it, kitty style theme configs can
-be annexed directly to the script with `--add`. This allows you to grow your 
+be annexed directly to the script with `--add`. This allows you to grow your
 own self contained theme file which you can scp to all your boxen. Just don't
 forget to upstream your changes :P. See [CONTRIBUTING](CONTRIBUTING.md) for instructions
 on adding themes to this repo.
