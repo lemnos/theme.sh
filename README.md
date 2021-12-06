@@ -163,38 +163,40 @@ The above makes vim play nicely with the stock terminal theme.
 
 ## Example root themeing logic
 
-The following shellrc snippet will cause the theme to change color when either
-su is used or sudo is run with a long running (> .2s) command.
+The following shellrc snippet will set the theme to 'red-alert' when
+su is used or sudo is run with a long running (> .2s) command. It assumes 
+theme.sh has been used to set the current theme (as in the recommended
+`~/.bashrc`).
 
 ```
 su() {
-		(
-				old_theme=$(theme.sh -p < /dev/tty);
-				trap 'echo "$old_theme"|theme.sh' EXIT
-				env su "$@"
-		)
+	(
+		INHIBIT_THEME_HIST=1 theme.sh red-alert
+		trap 'theme.sh "$(theme.sh -l|tail -n1)"' INT
+		env su "$@"
+		theme.sh "$(theme.sh -l|tail -n1)"
+	)
 }
 
 sudo() {
+	(
+		pid=$(exec sh -c 'echo "$PPID"')
+
+		# If the command takes less than .2s, don't change the theme.
+		# We could also just match on 'su' and ignore everything else,
+		# but this also accomodates other long running commands
+		# like 'sudo sleep 5s'. Modify to taste.
+
 		(
-				pid=$(exec sh -c 'echo "$PPID"')
-				old_theme=$(theme.sh -p < /dev/tty);
-				trap 'echo "$old_theme"|theme.sh' EXIT
+				sleep .2s
+				ps -p "$pid" > /dev/null && INHIBIT_THEME_HIST=1 theme.sh red-alert
+		) &
 
-				# If the command takes less than .2s, don't change the theme.
-				# We could also just match on 'su' and ignore everything else,
-				# but this also accomodates other long running commands
-				# like 'sudo sleep 5s'. Modify to taste.
-
-				( 
-						sleep .2s
-						ps -p "$pid" > /dev/null && INHIBIT_THEME_HIST=1 theme.sh red-alert
-				) &
-
-				env sudo "$@"
-		)
+		trap 'theme.sh "$(theme.sh -l|tail -n1)"' INT
+		env sudo "$@"
+		theme.sh "$(theme.sh -l|tail -n1)"
+	)
 }
-
 ```
 
 ## SSH Integration
@@ -236,6 +238,7 @@ ssh() {
 	fi
 
 	INHIBIT_THEME_HIST=1 theme.sh "$theme"
+	trap 'theme.sh "$(theme.sh -l|tail -n1)"' INT
 	env ssh "$@"
 	theme.sh "$(theme.sh -l|tail -n1)"
 }
