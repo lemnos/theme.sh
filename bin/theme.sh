@@ -6,7 +6,7 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-VERSION=v1.0.5
+VERSION=v1.0.6
 
 # Use truecolor sequences to simulate the end result.
 
@@ -344,69 +344,79 @@ set_current_theme() {
 
 print_current_theme() {
 	awk '
-		function escape(s) {
-			if(ENVIRON["TMUX"])
-				return sprintf("\033Ptmux;\033%s\033\\", s)
-			else
-				return s
-		}
+	# Yo dawg, I heard you like multiplexers...
 
-		function read() {
-			# Read until we encounter the CSI response, indicates end of
-			# stream (assumes fifo request-response output)
+	function escape_maybe(s) {
+		if (ENVIRON["TMUX"])
+			return sprintf("\033Ptmux;\033%s\033\\", s)
+		else
+			return s
+	}
 
-			while((end=index(buf, "[")) == 0) {
-				cmd=sprintf("dd if=/dev/tty ibs=1024 count=1 2> /dev/null", maxchars)
-				cmd|getline c
-				buf = buf c
-			}
+	function print_response(s) {
+		names["10;"] = "foreground"
+		names["11;"] = "background"
+		names["12;"] = "cursor"
+		for (i = 0; i < 16; i++)
+			names[sprintf("4;%d;", i)] = i
 
-			return substr(buf, 1, end)
-		}
+		split(s, a, "]")
+		for (i in a) {
+			if (match(a[i], /rgb:/)) {
+				key = substr(a[i], 1, RSTART-1)
 
-		function parse_seq(s) {
-			if(match(s, /rgb:/)) {
-				key = substr(s, 1, RSTART-1)
+				r=substr(a[i], RSTART+4, 2)
+				g=substr(a[i], RSTART+9, 2)
+				b=substr(a[i], RSTART+14, 2)
 
-				r=substr(s, RSTART+4, 2)
-				g=substr(s, RSTART+9, 2)
-				b=substr(s, RSTART+14, 2)
-
-				colors[key] = "#" r g b
+				printf "%s: %s\n", names[key], "#"r g b
 			}
 		}
+	}
 
-		BEGIN {
-			system("stty raw -echo")
+	# We cant just use RS/getline for this since
+	# mawk does input buffering :(.
 
-			for(i=0;i<16;i++)
-				printf escape(sprintf("\033]4;%d;?\007", i)) > "/dev/tty"
+	function read_response() {
+		buf = ""
 
-			printf escape("\033]10;?\007") > "/dev/tty"
-			printf escape("\033]11;?\007") > "/dev/tty"
-			printf escape("\033]12;?\007") > "/dev/tty"
+		# Accrue data until we encounter the terminating CSI response
+		while ((end=index(buf,"[")) == 0) {
+			# poor POSIX mans read :/
+			cmd="dd if=/dev/tty bs=1024 count=1 2> /dev/null"
 
-			# Terminating CSI sequence, should be supported on all
-			# terminals. Ensures we do not block forever waiting for
-			# input on unsupported terms.
+			while (cmd|getline data)
+				buf = buf data
 
-			printf escape("\033[c") > "/dev/tty"
-
-			buf = read()
-
-			system("stty -raw echo")
-
-			split(buf, responses, "]")
-			for(i in responses)
-				parse_seq(responses[i])
-
-			for(i=0;i<16;i++)
-				printf "%d: %s\n", i, colors[sprintf("4;%d;", i)]
-
-			printf "foreground: %s\n", colors["10;"]
-			printf "background: %s\n", colors["11;"]
-			printf "cursor: %s\n", colors["12;"]
+			close(cmd)
 		}
+
+		buf = substr(buf, 1, end-1)
+		return buf
+	}
+
+	BEGIN {
+		system("stty cbreak -echo")
+
+		# Terminals may ignore these.
+
+		for(i=0;i<16;i++)
+			printf escape_maybe(sprintf("\033]4;%d;?\007", i)) > "/dev/tty"
+
+		printf escape_maybe("\033]10;?\007") > "/dev/tty"
+		printf escape_maybe("\033]11;?\007") > "/dev/tty"
+		printf escape_maybe("\033]12;?\007") > "/dev/tty"
+
+		# Use a CSI DA1 sequence (supported by all terms) 
+		# as a sentinel value to indicate end-of-response.
+		# (assumes fifo request-response order)
+
+		printf escape_maybe("\033[c") > "/dev/tty"
+
+		print_response(read_response())
+
+		system("stty -cbreak echo")
+	}
 	'
 }
 
