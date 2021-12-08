@@ -1,4 +1,4 @@
-color0 #3b4252
+color0 #2e3440
 color1 #bf616a
 color2 #a3be8c
 color3 #ebcb8b
@@ -12,8 +12,8 @@ color10 #a3be8c
 color11 #ebcb8b
 color12 #81a1c1
 color13 #b48ead
-color14 #8fbcbb
-color15 #eceff4
+color14 #88c0d0
+color15 #8fbcbb
 background #2e3440
-foreground #d8dee9
-cursor #d8dee9
+foreground #e5e9f0
+cursor #e5e9f0
