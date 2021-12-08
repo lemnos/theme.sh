@@ -4,7 +4,7 @@ One theme script to rule them all.
 
 # Features
 
- - 270+ preloaded themes.
+ - 400+ preloaded themes.
  - Terminal agnostic (works on any terminal with OSC 4/11 support (e.g st, kitty, iterm))
  - Small, self contained and POSIX compliant.
  - History
