@@ -6,7 +6,7 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-VERSION=v1.1.2
+VERSION=v1.1.3
 
 # Use truecolor sequences to simulate the end result.
 

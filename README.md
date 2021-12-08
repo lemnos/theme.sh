@@ -4,12 +4,15 @@ One theme script to rule them all.
 
 # Features
 
- - 400+ preloaded themes.
- - Terminal agnostic (works on any terminal with OSC 4/11 support (e.g st, kitty, iterm))
- - Small, self contained and POSIX compliant.
- - History
- - Script friendly
- - Interactive theme selection (requires [fzf](https://github.com/junegunn/fzf))
+ - 400+ precompiled themes
+ - [Terminal agnostic](#supported-terminals) (works on any terminal with OSC 4/11 support (e.g st, kitty, iterm))
+ - Keeps history
+ - [Script](#scripting-examples) friendly
+ - Portable (a single <130k file with all 400 themes included)
+ - Dark/Light filters so you can decide when you want to burn your retinas.
+ - [Interactive](#demo) (requires [fzf](https://github.com/junegunn/fzf))
+ - [Self modifying](#adding-themes) (can ingest kitty themes).
+ - Small, self contained and POSIX compliant 
 
 # Demo
 
@@ -17,10 +20,11 @@ One theme script to rule them all.
 
 # Why?
 
- - Lets you easily switch themes inside of an open terminal.
- - Lets you configure st's colour theme without recompiling it :P
- - Lets you keep your shell's init file as the single source of truth.
- - Lets you script theme changes
+ - So you can easily switch themes inside of an open terminal.
+ - So you can keep your shell's init file as the single source of truth.
+ - So you can configure different themes for all your boxen (see [scripting](#scripting-examples)).
+ - So you can configure st without recompiling it :P.
+ - ~~So you can liberate your mind from the drudgery of the cubicle.~~.
 
 # Installation
 
@@ -38,41 +42,13 @@ or (OSX)
 sudo curl -Lo /usr/local/bin/theme.sh 'https://git.io/JM70M' && sudo chmod +x /usr/local/bin/theme.sh
 ```
 
-# Usage
+# Examples
+
+See `theme.sh -h` for a full list of options.
 
 
 ```
-usage: theme.sh [--light] | [--dark] <option> | <theme>
-
-  If <theme> is provided it will immediately be set. Otherwise --dark or
-  --light optionally act as filters on the supplied option. Theme history
-  is stored in ~/.theme_history by default and will be used for ordering
-  the otherwise alphabetical theme list in the relevant options (-l/-i/-i2).
-
-  E.G:
-    'theme.sh --dark -i'
-
-  will start an interactive selection of dark themes with the user's
-  most recently selected themes at the bottom of the list.
-
-OPTIONS
-  -l,--list               Print all available themes to STDOUT.
-  -i,--interactive        Start the interactive selection mode (requires fzf).
-  -i2,--interactive2      Interactive mode #2.  This shows the theme immediately instead of showing it
-                          in the preview window. Useful if your terminal does have TRUECOLOR support.
-  -r,--random             Sets a random theme and prints it to STDOUT.
-  -a,--add <kitty config> Annexes the given kitty config file.
-  -v,--version            Print the version and exit.
-
-SCRIPTING
-  If used from within a script, you will probably want to set
-  INHIBIT_THEME_HIST=1 to avoid mangling the user's theme history.
-```
-
-## Examples
-
-```
-> theme.sh -l
+> theme.sh --dark --list
 
   zenburn
   gruvbox
@@ -81,8 +57,6 @@ SCRIPTING
 
 > theme.sh zenburn
 ```
-
-or
 
 ```
 > theme.sh -i #Interactive theme selection (requires fzf)
@@ -161,7 +135,7 @@ The above makes vim play nicely with the stock terminal theme.
 
 # Scripting Examples
 
-## Example root themeing logic
+## Example sudo/su wrapper.
 
 The following shellrc snippet will set the theme to 'red-alert' when
 su is used or sudo is run with a long running (> .2s) command. It assumes 
@@ -244,8 +218,9 @@ ssh() {
 }
 ```
 
-You could also do something on the server side using `-p` for restoration, but it is less widely
-supported and you risk mangling client side config.
+You could also do something on the server side using `-p` for restoration, but
+it requires a terminal which supports OSC query sequences and is less widely
+supported.
 
 ## Adding Themes
 
