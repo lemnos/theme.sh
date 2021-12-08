@@ -6,7 +6,7 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-VERSION=v1.1.3
+VERSION=v1.1.4
 
 # Use truecolor sequences to simulate the end result.
 
@@ -312,7 +312,11 @@ set_current_theme() {
 			if(found) {
 				printf "%s", theme | script
 
-				histfile=ENVIRON["HOME"]"/.theme_history"
+				config_dir = ENVIRON["XDG_CONFIG_HOME"] ?
+						ENVIRON["XDG_CONFIG_HOME"] :
+						ENVIRON["HOME"]
+
+				histfile = config_dir"/.theme_history"
 				inhibit_hist=ENVIRON["INHIBIT_THEME_HIST"]
 
 				if(!inhibit_hist) {
@@ -394,7 +398,7 @@ print_current_theme() {
 		# Yo dawg, I heard you like multiplexers...
 		if (ENVIRON["TMUX"]) {
 			# If we are running inside tmux we sent the request sequences
-			# to the currently attached terminal. Note that we still 
+			# to the currently attached terminal. Note that we still
 			# read the result from the virtual terminal.
 
 			# Flow:
@@ -413,7 +417,7 @@ print_current_theme() {
 		printf "\033]11;?\007" > tty
 		printf "\033]12;?\007" > tty
 
-		# Use a CSI DA1 sequence (supported by all terms) 
+		# Use a CSI DA1 sequence (supported by all terms)
 		# as a sentinel value to indicate end-of-response.
 		# (assumes request-response order is fifo)
 
@@ -443,7 +447,11 @@ list() {
 
 	awk -v filter="$filter" -F": " '
 		BEGIN {
-			histfile=ENVIRON["HOME"]"/.theme_history"
+			config_dir = ENVIRON["XDG_CONFIG_HOME"] ?
+					ENVIRON["XDG_CONFIG_HOME"] :
+					ENVIRON["HOME"]
+
+			histfile = config_dir"/.theme_history"
 			while((getline < histfile) > 0) {
 				mru[nmru++] = $0
 				mruIndex[$0] = 1
@@ -512,15 +520,16 @@ case "$1" in
 usage: theme.sh [--light] | [--dark] <option> | <theme>
 
   If <theme> is provided it will immediately be set. Otherwise --dark or
-  --light optionally act as filters on the supplied option. Theme history
-  is stored in ~/.theme_history by default and will be used for ordering
-  the otherwise alphabetical theme list in the relevant options (-l/-i/-i2).
+  --light optionally act as filters on the supplied option. Theme history is
+  stored in ~/.theme_history or ($XDG_CONFIG_HOME/.theme_history if set) by
+  default and will be used for ordering the otherwise alphabetical theme list
+  in the relevant options (-l/-i/-i2).
 
   E.G:
     'theme.sh --dark -i'
 
   will start an interactive selection of dark themes with the user's
-  most recently selected themes at the bottom of the list. 
+  most recently selected themes at the bottom of the list.
 
   Theme definitions consistent with the internal format can also be piped
   directly into the script.
