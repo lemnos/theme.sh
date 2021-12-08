@@ -4,7 +4,7 @@ One theme script to rule them all.
 
 # Features
 
- - 270+ preloaded themes.
+ - 400+ preloaded themes.
  - Terminal agnostic (works on any terminal with OSC 4/11 support (e.g st, kitty, iterm))
  - Small, self contained and POSIX compliant.
  - History
@@ -292,6 +292,7 @@ Themes were contributed by numerous github contributors as well as scraped
 
   - https://github.com/dexpota/kitty-themes
   - https://github.com/mbadolato/iTerm2-Color-Schemes
+  - https://github.com/aarowill/base16-gnome-terminal
   - https://github.com/chriskempson/base16-iterm2
 
  A debt of gratitude is owed to these projects as well as well as those who
