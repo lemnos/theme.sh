@@ -6,7 +6,7 @@
 
 # Find a broken theme? Want to add a missing one? PRs are welcome.
 
-VERSION=v1.1.4
+VERSION=v1.1.5
 
 # Use truecolor sequences to simulate the end result.
 
@@ -581,7 +581,9 @@ SCRIPTING
 		--preview "$0 --preview2 {}"
 	;;
 -r|--random)
-	theme=$($0 $filterFlag -l|sort -R|head -n1)
+	# Sort -R is not portable :/
+
+	theme=$($0 $filterFlag -l|awk '{a[n++]=$0};END{srand();print(a[int(rand()*n)])}')
 	$0 "$theme"
 	echo "Theme: $theme"
 	;;
