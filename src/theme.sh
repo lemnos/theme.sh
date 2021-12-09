@@ -312,9 +312,7 @@ set_current_theme() {
 			if(found) {
 				printf "%s", theme | script
 
-				config_dir = ENVIRON["XDG_CONFIG_HOME"] ?
-						ENVIRON["XDG_CONFIG_HOME"] :
-						ENVIRON["HOME"]
+				config_dir = (ENVIRON["XDG_CONFIG_HOME"] ?  ENVIRON["XDG_CONFIG_HOME"] : ENVIRON["HOME"])
 
 				histfile = config_dir"/.theme_history"
 				inhibit_hist=ENVIRON["INHIBIT_THEME_HIST"]
@@ -447,9 +445,7 @@ list() {
 
 	awk -v filter="$filter" -F": " '
 		BEGIN {
-			config_dir = ENVIRON["XDG_CONFIG_HOME"] ?
-					ENVIRON["XDG_CONFIG_HOME"] :
-					ENVIRON["HOME"]
+			config_dir = ENVIRON["XDG_CONFIG_HOME"] ?  ENVIRON["XDG_CONFIG_HOME"] : ENVIRON["HOME"]
 
 			histfile = config_dir"/.theme_history"
 			while((getline < histfile) > 0) {
