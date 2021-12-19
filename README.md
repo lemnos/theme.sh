@@ -261,7 +261,7 @@ Below is a list of terminals on which theme.sh is known to work:
 
 # Caveats
 
- - Requires a shell that properly implements OSC 4/11.
+ - Requires a terminal that properly implements OSC 4/11.
  - Interactive mode also requires TRUECOLOR support (though the theme can still be set without it.)
  - May cause an imperceptible flash when you start your terminal.
  - Will not help you achieve enlightenment or improve your marriage.
