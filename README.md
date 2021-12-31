@@ -97,7 +97,7 @@ fi
 
 in your `~/.bashrc`.
 
-## Recommended `~/.config/fish/fish.config`
+## Recommended `~/.config/fish/config.fish`
 
 ```
 if type -q theme.sh
