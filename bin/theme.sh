@@ -3250,6 +3250,48 @@ foreground: #9fa2a6
 background: #2a3b4d
 cursor: #9fa2a6
 
+everforest
+0: #4b565c
+1: #e67e80
+2: #a7c080
+3: #dbbc7f
+4: #7fbbb3
+5: #d699b6
+6: #83c092
+7: #d3c6aa
+8: #4b565c
+9: #e67e80
+10: #a7c080
+11: #dbbc7f
+12: #7fbbb3
+13: #d699b6
+14: #83c092
+15: #d3c6aa
+foreground: #d3c6aa
+background: #2f383e
+cursor: #d3c6aa
+
+everforest-light
+0: #5c6a72
+1: #f85552
+2: #8da101
+3: #dfa000
+4: #3a94c5
+5: #df69ba
+6: #35a77c
+7: #dfddc8
+8: #5c6a72
+9: #f85552
+10: #8da101
+11: #dfa000
+12: #3a94c5
+13: #df69ba
+14: #35a77c
+15: #dfddc8
+foreground: #5c6a72
+background: #f8f0dc
+cursor: #5c6a72
+
 falcon
 0: #000004
 1: #ff3600
