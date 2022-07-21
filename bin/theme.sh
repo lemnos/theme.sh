@@ -2536,6 +2536,27 @@ foreground: #ffffff
 background: #000000
 cursor: #ffffff
 
+darkenberry
+0: #2a2a2a
+1: #ff5058
+2: #ff8050
+3: #7aff50
+4: #8870ff
+5: #60a0ff
+6: #ff60f8
+7: #404040
+8: #a0a0a0
+9: #ff80aa
+10: #fff890
+11: #a0ff80
+12: #b098ff
+13: #78f0c8
+14: #ff80fa
+15: #d0d0d0
+foreground: #d0d0d0
+background: #100020
+cursor: #ff8050
+
 darkmoss
 0: #171e1f
 1: #ff4658
