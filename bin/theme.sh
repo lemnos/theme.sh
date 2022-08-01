@@ -5917,6 +5917,48 @@ foreground: #cac296
 background: #1d1908
 cursor: #cac296
 
+melange-dark
+0: #352f2a
+1: #b65c60
+2: #78997a
+3: #ebc06d
+4: #9aacce
+5: #b380b0
+6: #86a3a3
+7: #a38d78
+8: #4d453e
+9: #f17c64
+10: #99d59d
+11: #ebc06d
+12: #9aacce
+13: #ce9bcb
+14: #88b3b2
+15: #c1a78e
+foreground: #ece1d7
+background: #2a2520
+cursor: #ece1d7
+
+melange-light
+0: #e9e1db
+1: #d7898c
+2: #83b887
+3: #c29830
+4: #485f84
+5: #be79bb
+6: #729893
+7: #a38d78
+8: #ded2c8
+9: #c65333
+10: #659e69
+11: #c29830
+12: #485f84
+13: #854882
+14: #436460
+15: #867462
+foreground: #6b5c4d
+background: #f4f0ed
+cursor: #6b5c4d
+
 mellow-purple
 0: #1e0528
 1: #00d9e9
