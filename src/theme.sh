@@ -265,6 +265,8 @@ awk '
 	}
 
 	BEGIN {
+		devout = ENVIRON["DEVOUT"] + 0 == 1 ? "/dev/stdout" : "/dev/tty"
+
 		normalize_term()
 
 		if(term == "iterm") {
@@ -289,10 +291,10 @@ awk '
 		}
 	}
 
-	/^foreground:/ { printf fgesc, substr($2, 2) > "/dev/tty" }
-	/^background:/ { printf bgesc, substr($2, 2) > "/dev/tty" }
-	/^cursor:/ { printf curesc, substr($2, 2) > "/dev/tty" }
-	/^[0-9]+:/ { printf colesc, $1, substr($2, 2) > "/dev/tty" }
+	/^foreground:/ { printf fgesc, substr($2, 2) > devout }
+	/^background:/ { printf bgesc, substr($2, 2) > devout }
+	/^cursor:/ { printf curesc, substr($2, 2) > devout }
+	/^[0-9]+:/ { printf colesc, $1, substr($2, 2) > devout }
 '
 }
 
@@ -560,6 +562,7 @@ OPTIONS
 SCRIPTING
   If used from within a script, you will probably want to set
   INHIBIT_THEME_HIST=1 to avoid mangling the user's theme history.
+  Set DEVOUT=1 to write color codes to /dev/stdout instead of the default /dev/tty.
 !
 	;;
 -p|--print-theme)
