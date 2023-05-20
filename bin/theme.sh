@@ -7011,45 +7011,45 @@ cursor: #3fdcee
 
 papercolor-dark
 0: #1c1c1c
-1: #585858
-2: #af87d7
-3: #afd700
-4: #ff5faf
-5: #00afaf
-6: #ffaf00
-7: #808080
-8: #d7af5f
-9: #585858
-10: #af87d7
-11: #afd700
-12: #ff5faf
-13: #00afaf
-14: #ffaf00
-15: #d0d0d0
-foreground: #808080
+1: #af005f
+2: #5faf00
+3: #d7af5f
+4: #5fafd7
+5: #808080
+6: #d7875f
+7: #d0d0d0
+8: #585858
+9: #5faf5f
+10: #afd700
+11: #af87d7
+12: #ffaf00
+13: #ff5faf
+14: #00afaf
+15: #5f8787
+foreground: #d0d0d0
 background: #1c1c1c
-cursor: #808080
+cursor: #d0d0d0
 
 papercolor-light
 0: #eeeeee
-1: #bcbcbc
-2: #8700af
-3: #d70087
-4: #d75f00
-5: #005faf
-6: #d75f00
+1: #af0000
+2: #008700
+3: #5f8700
+4: #0087af
+5: #878787
+6: #005f87
 7: #444444
-8: #5f8700
-9: #bcbcbc
-10: #8700af
-11: #d70087
+8: #bcbcbc
+9: #d70000
+10: #d70087
+11: #8700af
 12: #d75f00
-13: #005faf
-14: #d75f00
-15: #878787
+13: #d75f00
+14: #005faf
+15: #005f87
 foreground: #444444
 background: #eeeeee
-cursor: #444444
+cursor: #bcbcbc
 
 paraiso
 0: #2f1e2e
