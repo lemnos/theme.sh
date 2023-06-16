@@ -119,3 +119,4 @@ If you don't see an attribution here feel free to request one or submit a PR.
 - mar - [memije](https://github.com/memije)
 - github-* [projekt0n](https://github.com/projekt0n/github-nvim-theme)
 - melange-* [savq](https://github.com/savq/melange)
+- catppuccin-* [catppuccin](https://github.com/catppuccin/catppuccin)
