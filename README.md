@@ -78,7 +78,7 @@ To load the most recently selected theme automatically you can put
 
 ```
 if command -v theme.sh > /dev/null; then
-	[ -e ~/.theme_history ] && theme.sh "$(theme.sh -l|tail -n1)"
+	theme.sh "$(theme.sh -l|tail -n1)"
 
 	# Optional
 
@@ -100,7 +100,7 @@ in your `~/.bashrc`.
 ## `~/.zshrc`
 ```
 if command -v theme.sh > /dev/null; then
-	[ -e ~/.theme_history ] && theme.sh "$(theme.sh -l|tail -n1)"
+	theme.sh "$(theme.sh -l|tail -n1)"
 
 	# Optional
 
@@ -126,9 +126,7 @@ fi
 
 ```
 if type -q theme.sh
-	if test -e ~/.theme_history
 	theme.sh (theme.sh -l|tail -n1)
-	end
 
 	# Optional
 	# Bind C-o to the last theme.
