@@ -9235,6 +9235,27 @@ foreground: #3760bf
 background: #e1e2e7
 cursor: #3760bf
 
+tokyo-moon
+0: #1b1d2b
+1: #ff757f
+2: #c3e88d
+3: #ffc777
+4: #82aaff
+5: #c099ff
+6: #86e1fc
+7: #828bb8
+8: #444a73
+9: #ff757f
+10: #c3e88d
+11: #ffc777
+12: #82aaff
+13: #c099ff
+14: #86e1fc
+15: #c8d3f5
+foreground: #c8d3f5
+background: #222436
+cursor: #c8d3f5
+
 tokyo-night
 0: #15161e
 1: #f7768e
